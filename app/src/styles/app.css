@@ -1,0 +1,248 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   Intaking — app shell and screen classes.
+   Ported from the prototype's <style> block in "Intaking - Journey.dc.html".
+   The one deliberate change: the prototype drew a 390×800 phone frame with a
+   fake status bar, because it ran in a desktop browser. On a real device the
+   frame IS the viewport, so .phone fills the screen and the former 36px /
+   64px insets become the real safe-area insets.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --tabbar-h: 64px;
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+input, textarea { -webkit-user-select: text; user-select: text; }
+
+.hand { font-family: var(--font-hand); font-weight: 600; }
+.greek { font-family: var(--font-heading); font-weight: 600; letter-spacing: .14em; }
+
+/* — the device viewport — */
+.phone {
+  position: fixed; inset: 0;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+/* — scroll regions — .scr sits above the tab bar, .scrf is full height — */
+.scr, .scrf {
+  position: absolute; inset: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  z-index: 1;
+}
+.scr::-webkit-scrollbar, .scrf::-webkit-scrollbar { display: none; }
+.scr {
+  padding: var(--safe-top) 24px calc(var(--tabbar-h) + var(--safe-bottom) + 20px);
+}
+.scrf {
+  padding: var(--safe-top) 26px calc(var(--safe-bottom) + 20px);
+}
+
+/* — bottom tab bar — */
+.tabs {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: calc(var(--tabbar-h) + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center;
+  border-top: 1px solid var(--color-divider);
+  background: var(--color-bg);
+  z-index: 2;
+}
+.tab {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  background: none; border: 0; cursor: pointer;
+  font: 400 12.5px var(--font-body); color: var(--color-text); padding: 0;
+}
+.tab:active { opacity: .55; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
+.dotless { width: 5px; height: 5px; }
+
+/* — the kicker: small letterspaced uppercase label — */
+.kick {
+  font: 400 10px/1 var(--font-body); letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(32, 30, 29, .5);
+}
+
+/* — ruled paper — */
+.ruled {
+  background-image: repeating-linear-gradient(
+    to bottom, transparent 0 33px, rgba(32, 30, 29, .13) 33px 34px);
+}
+.row { display: flex; align-items: baseline; gap: 10px; height: 34px; }
+
+.btnw { display: flex; gap: 8px; }
+
+/* — PIN keypad — */
+.key {
+  background: none; border: 1px solid rgba(32, 30, 29, .22); border-radius: 2px;
+  height: 52px; font: 400 21px var(--font-heading); color: var(--color-text); cursor: pointer;
+}
+.key:hover { background: var(--color-accent-100); border-color: var(--color-accent-300); }
+.key:active { background: var(--color-accent-200); }
+.pip { width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--color-text); }
+.pip-on { background: var(--color-text); }
+
+/* — settings rows — */
+.srow { display: flex; align-items: center; gap: 14px; padding: 15px 0; }
+.srow-l { font: 400 14px var(--font-body); }
+.srow-s { font: 400 11.5px/1.4 var(--font-body); color: rgba(32, 30, 29, .55); margin-top: 2px; }
+
+/* — switch — */
+.sw {
+  width: 40px; height: 22px; border-radius: 11px;
+  border: 1px solid rgba(32, 30, 29, .35); background: var(--color-neutral-200);
+  position: relative; flex: none; cursor: pointer; padding: 0;
+}
+.sw-on { background: var(--color-accent); border-color: var(--color-accent-700); }
+.sw i {
+  position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--color-bg); box-shadow: var(--shadow-sm);
+  transition: left .16s ease;
+}
+.sw-on i { left: 20px; }
+
+/* — chips — */
+.chip {
+  font: 400 12px var(--font-body); padding: 5px 11px;
+  border: 1px solid rgba(32, 30, 29, .35); border-radius: 2px;
+  background: none; cursor: pointer; color: var(--color-text);
+}
+.chip-on { background: var(--color-accent); border-color: var(--color-accent-700); color: #fff; }
+
+/* — collapsible settings sections — */
+.sec {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 0;
+  background: none; border: 0; border-bottom: 1px solid var(--color-text);
+  cursor: pointer; text-align: left; color: var(--color-text);
+}
+.sec:hover .sec-t { color: var(--color-accent-700); }
+.sec-t { font: 400 15px var(--font-heading); }
+.sec-n { font: 400 11.5px var(--font-body); color: rgba(32, 30, 29, .5); margin-left: auto; }
+.sec-c { font-size: 13px; color: rgba(32, 30, 29, .55); width: 12px; text-align: center; }
+.secbody { padding: 6px 0 24px; }
+
+/* — the dateline rail — */
+.mastrow {
+  display: flex; justify-content: space-between; font-size: 9.5px;
+  letter-spacing: .13em; color: rgba(32, 30, 29, .6); padding: 5px 0;
+}
+
+/* — a logged ledger line — */
+.erow {
+  display: flex; align-items: baseline; gap: 10px; height: 34px; width: 100%;
+  background: none; border: 0; padding: 0; text-align: left;
+  color: var(--color-text); cursor: pointer; font: inherit;
+}
+.erow:active { background: var(--color-accent-100); }
+.etime { font-size: 11px; color: rgba(32, 30, 29, .45); width: 38px; flex: none; }
+.ename { font: 400 14px var(--font-body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.etag { font-size: 10px; letter-spacing: .06em; color: var(--color-accent-700); }
+.ekcal { font-family: var(--font-hand); font-weight: 600; margin-left: auto; font-size: 19px; flex: none; }
+
+/* — the floral watermark — */
+.wm {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; opacity: .14; color: #0088b0;
+  -webkit-mask-image: radial-gradient(115% 78% at 50% 46%, transparent 30%, rgba(0,0,0,.45) 58%, #000 100%);
+  mask-image: radial-gradient(115% 78% at 50% 46%, transparent 30%, rgba(0,0,0,.45) 58%, #000 100%);
+}
+
+/* — handwritten inline input: the ledger's "tap to write" fields — */
+.handinput {
+  font-family: var(--font-hand); font-weight: 600; font-size: 18px;
+  background: none; border: 0; text-align: right; color: var(--color-text);
+  padding: 0; margin-left: auto; min-width: 0; width: 100%;
+  caret-color: var(--color-accent);
+}
+.handinput::placeholder { color: rgba(32, 30, 29, .35); }
+.handinput:focus { outline: none; }
+
+/* — camera viewfinder: the scan screen goes transparent so the native
+     ML Kit preview shows through the WebView — */
+body.scanning, body.scanning .phone { background: transparent !important; }
+body.scanning .wm, body.scanning .tabs { display: none !important; }
+
+.scan-overlay {
+  position: fixed; inset: 0; z-index: 10;
+  display: flex; flex-direction: column;
+  padding: calc(var(--safe-top) + 12px) 24px calc(var(--safe-bottom) + 24px);
+}
+.scan-window {
+  position: absolute; left: 26px; right: 26px; top: 34%;
+  height: 150px; border: 1px solid rgba(243, 242, 242, .9);
+}
+.scan-line {
+  position: absolute; left: 26px; right: 26px; top: calc(34% + 74px);
+  height: 2px; background: var(--color-accent-2);
+}
+
+/* — a modal sheet, used for the custom-food form and photo items — */
+.sheet-backdrop {
+  position: fixed; inset: 0; z-index: 20;
+  background: color-mix(in srgb, var(--color-neutral-900) 45%, transparent);
+  display: flex; align-items: flex-end;
+}
+.sheet {
+  width: 100%; max-height: 88%; overflow-y: auto;
+  background: var(--color-bg);
+  border-top-left-radius: var(--radius-lg); border-top-right-radius: var(--radius-lg);
+  padding: 20px 24px calc(var(--safe-bottom) + 20px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* — a small spinner in the app's ink — */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--color-accent-200); border-top-color: var(--color-accent);
+  animation: spin .7s linear infinite;
+}
+
+/* — the "in range" band slider: a 2px rule with a paper-filled handle, as
+     drawn in the design — */
+.band {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; height: 14px; background: none; margin: 0; cursor: pointer;
+}
+.band::-webkit-slider-runnable-track {
+  height: 2px; background: var(--color-neutral-300);
+}
+.band::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 14px; height: 14px; margin-top: -6px; border-radius: 50%;
+  background: var(--color-bg); border: 1px solid var(--color-accent-700);
+}
+.band::-moz-range-track { height: 2px; background: var(--color-neutral-300); }
+.band::-moz-range-progress { height: 2px; background: var(--color-accent); }
+.band::-moz-range-thumb {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--color-bg); border: 1px solid var(--color-accent-700);
+}
+
+/* — toast — */
+.toast {
+  position: fixed; left: 24px; right: 24px;
+  bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 16px);
+  z-index: 30; padding: 11px 14px; border-radius: var(--radius-md);
+  background: var(--color-text); color: var(--color-bg);
+  font: 400 13px var(--font-body); box-shadow: var(--shadow-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

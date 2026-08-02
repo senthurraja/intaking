@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-ssr/
+
+# generated icons (regenerate with `npm run assets`)
+assets/
+
+# smoke-test artefacts
+scripts/shots/
+
+# native build artefacts — the Xcode project itself IS committed,
+# but its pods and derived data are not
+ios/App/Pods/
+ios/App/App/public/
+ios/App/Podfile.lock
+ios/DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# editor / OS
+.DS_Store
+*.local
+.vscode/*
+!.vscode/extensions.json
+*.log
