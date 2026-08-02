@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Entities />
+  <Roles />
+  <Workflows>
+    <Workflow WorkflowId="{a1f1c001-0001-4001-8001-000000000001}" Name="IT Triage — Classify and Draft">
+      <JsonFileName>/Workflows/ITTriage_ClassifyAndDraft-A1F1C001-0001-4001-8001-000000000001.json</JsonFileName>
+      <Type>1</Type>
+      <Subprocess>1</Subprocess>
+      <Category>5</Category>
+      <Mode>0</Mode>
+      <Scope>4</Scope>
+      <OnDemand>0</OnDemand>
+      <TriggerOnCreate>0</TriggerOnCreate>
+      <TriggerOnDelete>0</TriggerOnDelete>
+      <AsyncAutodelete>0</AsyncAutodelete>
+      <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+      <StateCode>0</StateCode>
+      <StatusCode>1</StatusCode>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <SchemaName>ITTriage_ClassifyAndDraft</SchemaName>
+      <IsCustomizable>1</IsCustomizable>
+      <IsTransacted>1</IsTransacted>
+      <RunAs>1</RunAs>
+    </Workflow>
+    <Workflow WorkflowId="{a1f1c002-0002-4002-8002-000000000002}" Name="IT Triage — Request Approval and Send">
+      <JsonFileName>/Workflows/ITTriage_RequestApproval-A1F1C002-0002-4002-8002-000000000002.json</JsonFileName>
+      <Type>1</Type>
+      <Subprocess>1</Subprocess>
+      <Category>5</Category>
+      <Mode>0</Mode>
+      <Scope>4</Scope>
+      <OnDemand>0</OnDemand>
+      <TriggerOnCreate>0</TriggerOnCreate>
+      <TriggerOnDelete>0</TriggerOnDelete>
+      <AsyncAutodelete>0</AsyncAutodelete>
+      <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+      <StateCode>0</StateCode>
+      <StatusCode>1</StatusCode>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <SchemaName>ITTriage_RequestApproval</SchemaName>
+      <IsCustomizable>1</IsCustomizable>
+      <IsTransacted>1</IsTransacted>
+      <RunAs>1</RunAs>
+    </Workflow>
+    <Workflow WorkflowId="{a1f1c003-0003-4003-8003-000000000003}" Name="IT Triage — Release Queued Approvals">
+      <JsonFileName>/Workflows/ITTriage_ReleaseQueuedApprovals-A1F1C003-0003-4003-8003-000000000003.json</JsonFileName>
+      <Type>1</Type>
+      <Subprocess>0</Subprocess>
+      <Category>5</Category>
+      <Mode>0</Mode>
+      <Scope>4</Scope>
+      <OnDemand>0</OnDemand>
+      <TriggerOnCreate>0</TriggerOnCreate>
+      <TriggerOnDelete>0</TriggerOnDelete>
+      <AsyncAutodelete>0</AsyncAutodelete>
+      <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+      <StateCode>0</StateCode>
+      <StatusCode>1</StatusCode>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <SchemaName>ITTriage_ReleaseQueuedApprovals</SchemaName>
+      <IsCustomizable>1</IsCustomizable>
+      <IsTransacted>1</IsTransacted>
+      <RunAs>1</RunAs>
+    </Workflow>
+  </Workflows>
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <optionsets />
+  <CustomControls />
+  <EntityDataProviders />
+  <environmentvariabledefinitions>
+    <environmentvariabledefinition schemaname="ittr_SiteUrl">
+      <displayname default="IT Triage - SharePoint site URL" />
+      <description default="Site hosting the IT Triage Log list, e.g. https://contoso.sharepoint.com/sites/ITTriage" />
+      <type>100000000</type>
+      <isrequired>1</isrequired>
+      <introducedversion>1.0.0.0</introducedversion>
+      <iscustomizable>1</iscustomizable>
+    </environmentvariabledefinition>
+    <environmentvariabledefinition schemaname="ittr_AuditListName">
+      <displayname default="IT Triage - audit list name" />
+      <description default="Display name of the SharePoint list, default: IT Triage Log" />
+      <type>100000000</type>
+      <isrequired>1</isrequired>
+      <defaultvalue>IT Triage Log</defaultvalue>
+      <introducedversion>1.0.0.0</introducedversion>
+      <iscustomizable>1</iscustomizable>
+    </environmentvariabledefinition>
+    <environmentvariabledefinition schemaname="ittr_ApproverEmail">
+      <displayname default="IT Triage - approver email" />
+      <description default="Who receives the Adaptive Card and approves every ticket before it is sent." />
+      <type>100000000</type>
+      <isrequired>1</isrequired>
+      <introducedversion>1.0.0.0</introducedversion>
+      <iscustomizable>1</iscustomizable>
+    </environmentvariabledefinition>
+    <environmentvariabledefinition schemaname="ittr_ApproverName">
+      <displayname default="IT Triage - approver display name" />
+      <description default="Named in the disclosure line at the foot of every ticket email." />
+      <type>100000000</type>
+      <isrequired>1</isrequired>
+      <introducedversion>1.0.0.0</introducedversion>
+      <iscustomizable>1</iscustomizable>
+    </environmentvariabledefinition>
+    <environmentvariabledefinition schemaname="ittr_ITSupportMailbox">
+      <displayname default="IT Triage - destination mailbox" />
+      <description default="Where approved tickets are sent." />
+      <type>100000000</type>
+      <isrequired>1</isrequired>
+      <defaultvalue>ITSupport@thefa.com</defaultvalue>
+      <introducedversion>1.0.0.0</introducedversion>
+      <iscustomizable>1</iscustomizable>
+    </environmentvariabledefinition>
+    <environmentvariabledefinition schemaname="ittr_TimeZone">
+      <displayname default="IT Triage - time zone" />
+      <description default="Windows time zone ID used for the working-hours check." />
+      <type>100000000</type>
+      <isrequired>1</isrequired>
+      <defaultvalue>GMT Standard Time</defaultvalue>
+      <introducedversion>1.0.0.0</introducedversion>
+      <iscustomizable>1</iscustomizable>
+    </environmentvariabledefinition>
+    <environmentvariabledefinition schemaname="ittr_GptPromptModelId">
+      <displayname default="IT Triage - AI Builder prompt model ID" />
+      <description default="GUID of the custom prompt created in build guide step 5." />
+      <type>100000000</type>
+      <isrequired>1</isrequired>
+      <introducedversion>1.0.0.0</introducedversion>
+      <iscustomizable>1</iscustomizable>
+    </environmentvariabledefinition>
+  </environmentvariabledefinitions>
+  <Languages>
+    <Language>1033</Language>
+  </Languages>
+</ImportExportXml>

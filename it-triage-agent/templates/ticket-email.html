@@ -1,0 +1,86 @@
+<!--
+  Ticket email body. Paste into the 'Body' field of the Send an email (V2) action in
+  RequestApproval, with the editor switched to code view (</> button).
+
+  Q10 = seeking approval, so the disclosure paragraph stays in. Q11 = summary only, so there
+  is no verbatim block — the commented-out section at the bottom is what to paste back in if
+  you flip includeVerbatimDescription to true in config/taxonomy.json.
+
+  Inline styles only. Outlook strips <style> blocks, and a shared mailbox is read in Outlook.
+-->
+
+<div style="font-family:Segoe UI,Arial,sans-serif;font-size:14px;color:#1a1a1a;line-height:1.5;max-width:640px">
+
+  <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin-bottom:18px">
+    <tr>
+      <td style="padding:10px 14px;background:#f3f4f7;border-left:4px solid @{if(equals(body('Get_the_logged_ticket')?['value'][0]?['Urgency'],'P1'),'#c0392b',if(equals(body('Get_the_logged_ticket')?['value'][0]?['Urgency'],'P2'),'#c97a18','#5b6472'))}">
+        <div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5b6472">
+          @{body('Get_the_logged_ticket')?['value'][0]?['Urgency']} ·
+          @{body('Get_the_logged_ticket')?['value'][0]?['Category']} ·
+          Ref @{body('Get_the_logged_ticket')?['value'][0]?['Title']}
+        </div>
+        <div style="font-size:17px;font-weight:600;margin-top:4px">
+          @{body('Get_the_logged_ticket')?['value'][0]?['DraftSubject']}
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <p style="margin:0 0 16px">
+    @{body('Post_approval_card')?['data']?['summary']}
+  </p>
+
+  <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 0 18px;font-size:13px">
+    <tr>
+      <td style="padding:4px 16px 4px 0;color:#5b6472">Requester</td>
+      <td style="padding:4px 0">
+        @{body('Get_the_logged_ticket')?['value'][0]?['RequesterName']}
+        &lt;@{body('Get_the_logged_ticket')?['value'][0]?['RequesterEmail']}&gt;
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:4px 16px 4px 0;color:#5b6472">Reported</td>
+      <td style="padding:4px 0">
+        @{formatDateTime(convertTimeZone(body('Get_the_logged_ticket')?['value'][0]?['Created'],'UTC','GMT Standard Time'),'dd MMM yyyy, HH:mm')}
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:4px 16px 4px 0;color:#5b6472">Priority basis</td>
+      <td style="padding:4px 0">@{body('Get_the_logged_ticket')?['value'][0]?['UrgencyReason']}</td>
+    </tr>
+  </table>
+
+  <p style="margin:0 0 18px;font-size:13px">
+    <strong>Reply directly to the requester</strong> — they are expecting to hear from you, not
+    from this mailbox's sender.
+  </p>
+
+  <hr style="border:0;border-top:1px solid #dcdfe5;margin:20px 0 12px">
+
+  <p style="margin:0;font-size:12px;color:#6b7280;line-height:1.5">
+    Raised automatically from a Microsoft Teams conversation with the IT Triage assistant.
+    @{body('Get_the_logged_ticket')?['value'][0]?['RequesterName']} submitted this deliberately
+    through the assistant; the description above was written from their own account of the
+    problem and reviewed by @{parameters('ApproverName')} before sending. No private chat was
+    monitored to produce it.
+  </p>
+
+</div>
+
+<!--
+  ============================================================================
+  VERBATIM BLOCK — paste above the <hr> if you set includeVerbatimDescription
+  to true. See README, "The one toggle worth revisiting".
+  ============================================================================
+
+  <div style="margin:0 0 18px;padding:12px 14px;background:#f8f9fb;border-left:3px solid #c8cdd6">
+    <div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#5b6472;margin-bottom:6px">
+      In their own words
+    </div>
+    <div style="font-size:13px;white-space:pre-wrap">@{body('Get_the_logged_ticket')?['value'][0]?['RawDescription']}</div>
+  </div>
+
+  Note: RawDescription is NOT written to the SharePoint list in the current build — the
+  Log_the_decision action deliberately omits it. Turning this on means adding that column
+  and that field mapping too. Both are called out in docs/build-guide.md step 9.
+-->

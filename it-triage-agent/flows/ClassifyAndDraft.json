@@ -1,0 +1,160 @@
+{
+  "$comment": "Power Automate flow definition — child flow #1, called by the Copilot Studio topic. Import via the solution in ../solution/, or rebuild by hand following docs/build-guide.md step 6. Connection references are placeholders and MUST be remapped on import.",
+  "properties": {
+    "displayName": "IT Triage — Classify and Draft",
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": { "defaultValue": {}, "type": "Object" },
+        "$authentication": { "defaultValue": {}, "type": "SecureObject" }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Skills",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text_Description": { "title": "Description", "type": "string" },
+                "text_RequesterName": { "title": "RequesterName", "type": "string" },
+                "text_RequesterEmail": { "title": "RequesterEmail", "type": "string" },
+                "text_ConversationId": { "title": "ConversationId", "type": "string" }
+              },
+              "required": ["text_Description", "text_RequesterEmail"]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Init_TicketRef": {
+          "runAfter": {},
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "TicketRef",
+                "type": "string",
+                "value": "@{concat('ITT-', formatDateTime(utcNow(),'yyMMdd'), '-', substring(replace(guid(),'-',''),0,4))}"
+              }
+            ]
+          }
+        },
+
+        "Find_recent_open_draft_from_same_person": {
+          "$comment": "Q05 — bundle anything from the same requester inside the 5 minute window instead of raising a second ticket.",
+          "runAfter": { "Init_TicketRef": ["Succeeded"] },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": { "connectionName": "shared_sharepointonline", "operationId": "GetItems", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" },
+            "parameters": {
+              "dataset": "@parameters('SiteUrl')",
+              "table": "@parameters('AuditListName')",
+              "$filter": "@{concat('RequesterEmail eq ''', triggerBody()?['text_RequesterEmail'], ''' and Status eq ''Awaiting approval'' and Created gt datetime''', formatDateTime(addMinutes(utcNow(), -5),'yyyy-MM-ddTHH:mm:ssZ'), '''')}",
+              "$top": 1
+            }
+          }
+        },
+
+        "Classify_with_AI": {
+          "$comment": "AI Builder 'Create text with GPT'. The prompt body lives in copilot-studio/prompt-classify.md — paste it here verbatim and bind the four placeholders.",
+          "runAfter": { "Find_recent_open_draft_from_same_person": ["Succeeded"] },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": { "connectionName": "shared_cognitiveservicestextanalytics", "operationId": "PredictV2", "apiId": "/providers/Microsoft.PowerApps/apis/shared_aibuilder" },
+            "parameters": {
+              "modelId": "@parameters('GptPromptModelId')",
+              "request/prompt": "@{parameters('ClassificationPrompt')}",
+              "request/text": "@{triggerBody()?['text_Description']}"
+            }
+          }
+        },
+
+        "Parse_result": {
+          "runAfter": { "Classify_with_AI": ["Succeeded"] },
+          "type": "ParseJson",
+          "inputs": {
+            "content": "@body('Classify_with_AI')?['responsev2']?['predictionOutput']?['text']",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "isITRequest": { "type": "boolean" },
+                "notARequestReason": { "type": "string" },
+                "category": { "type": "string" },
+                "urgency": { "type": "string" },
+                "urgencyReason": { "type": "string" },
+                "subject": { "type": "string" },
+                "summary": { "type": "string" },
+                "missingInfo": { "type": "array", "items": { "type": "string" } },
+                "confidence": { "type": "string" }
+              }
+            }
+          }
+        },
+
+        "Log_the_decision": {
+          "$comment": "Q08 — every submission is logged, including the ones we filter out. This is the tuning data.",
+          "runAfter": { "Parse_result": ["Succeeded"] },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": { "connectionName": "shared_sharepointonline", "operationId": "PostItem", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" },
+            "parameters": {
+              "dataset": "@parameters('SiteUrl')",
+              "table": "@parameters('AuditListName')",
+              "item/Title": "@{variables('TicketRef')}",
+              "item/RequesterName": "@{triggerBody()?['text_RequesterName']}",
+              "item/RequesterEmail": "@{triggerBody()?['text_RequesterEmail']}",
+              "item/Category": "@{body('Parse_result')?['category']}",
+              "item/Urgency": "@{body('Parse_result')?['urgency']}",
+              "item/UrgencyReason": "@{body('Parse_result')?['urgencyReason']}",
+              "item/Confidence": "@{body('Parse_result')?['confidence']}",
+              "item/DraftSubject": "@{body('Parse_result')?['subject']}",
+              "item/DraftSummary": "@{body('Parse_result')?['summary']}",
+              "item/Status": "@{if(body('Parse_result')?['isITRequest'], 'Awaiting approval', 'Filtered — not IT')}",
+              "item/FilterReason": "@{body('Parse_result')?['notARequestReason']}",
+              "item/ConversationId": "@{triggerBody()?['text_ConversationId']}"
+            }
+          }
+        },
+
+        "Respond_to_the_agent": {
+          "runAfter": { "Log_the_decision": ["Succeeded"] },
+          "type": "Response",
+          "kind": "Skills",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "isITRequest": "@body('Parse_result')?['isITRequest']",
+              "notARequestReason": "@body('Parse_result')?['notARequestReason']",
+              "category": "@body('Parse_result')?['category']",
+              "urgency": "@body('Parse_result')?['urgency']",
+              "subject": "@body('Parse_result')?['subject']",
+              "summary": "@body('Parse_result')?['summary']",
+              "missingInfo": "@body('Parse_result')?['missingInfo']",
+              "confidence": "@body('Parse_result')?['confidence']",
+              "ticketRef": "@variables('TicketRef')",
+              "bundledIntoExisting": "@greater(length(body('Find_recent_open_draft_from_same_person')?['value']), 0)"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "isITRequest": { "type": "boolean" },
+                "notARequestReason": { "type": "string" },
+                "category": { "type": "string" },
+                "urgency": { "type": "string" },
+                "subject": { "type": "string" },
+                "summary": { "type": "string" },
+                "missingInfo": { "type": "array" },
+                "confidence": { "type": "string" },
+                "ticketRef": { "type": "string" },
+                "bundledIntoExisting": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {}
+    }
+  }
+}

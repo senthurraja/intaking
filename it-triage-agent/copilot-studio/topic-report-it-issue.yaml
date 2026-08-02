@@ -1,0 +1,203 @@
+# Topic: Report an IT issue
+#
+# Paste into Copilot Studio → your agent → Topics → Add a topic → open the ⋯ menu →
+# "Open code editor" → replace the contents.
+#
+# Copilot Studio's YAML dialect shifts between releases. If a node is rejected on paste,
+# build that one node in the visual designer instead — the structure below tells you exactly
+# what it should do. Do not fight the editor.
+
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Report an IT issue
+    triggerQueries:
+      - I need IT help
+      - raise an IT ticket
+      - log a support ticket
+      - something is broken
+      - I am locked out of my account
+      - I cannot log in
+      - my password needs resetting
+      - my laptop is not working
+      - I cannot connect to the VPN
+      - I think I have been sent a phishing email
+      - I need software installed
+      - new starter setup
+
+  actions:
+    # ------------------------------------------------------------------
+    # 1. Collect the problem. One open question beats five narrow ones —
+    #    the AI step extracts structure, so let people talk.
+    # ------------------------------------------------------------------
+    - kind: Question
+      id: q_description
+      variable: Topic.IssueDescription
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      prompt: |-
+        I can pass this to IT Support for you. Tell me what's happening — include any error
+        message you're seeing, and which system or device it's on.
+      interruptionPolicy:
+        allowInterruption: true
+
+    # ------------------------------------------------------------------
+    # 2. Guard against a one-word answer. "printer" is not a ticket.
+    # ------------------------------------------------------------------
+    - kind: ConditionGroup
+      id: check_length
+      conditions:
+        - id: too_short
+          condition: =Length(Topic.IssueDescription) < 25
+          actions:
+            - kind: Question
+              id: q_more_detail
+              variable: Topic.ExtraDetail
+              entity: StringPrebuiltEntity
+              prompt: |-
+                Got it. A bit more detail will save IT coming back to you — what were you
+                doing when it happened, and has it stopped you working?
+            - kind: SetVariable
+              id: merge_detail
+              variable: Topic.IssueDescription
+              value: =Concatenate(Topic.IssueDescription, " ", Topic.ExtraDetail)
+
+    # ------------------------------------------------------------------
+    # 3. Classify + draft. All the intelligence lives in the flow.
+    # ------------------------------------------------------------------
+    - kind: SendActivity
+      id: say_working
+      activity: Thanks — writing that up now.
+
+    - kind: InvokeFlowAction
+      id: call_classify
+      flowId: ClassifyAndDraft
+      input:
+        binding:
+          text_Description: =Topic.IssueDescription
+          text_RequesterName: =System.User.DisplayName
+          text_RequesterEmail: =System.User.Email
+          text_ConversationId: =System.Conversation.Id
+      output:
+        binding:
+          Topic.IsITRequest: isITRequest
+          Topic.Category: category
+          Topic.Urgency: urgency
+          Topic.Subject: subject
+          Topic.Summary: summary
+          Topic.MissingInfo: missingInfo
+          Topic.Confidence: confidence
+          Topic.NotARequestReason: notARequestReason
+          Topic.TicketRef: ticketRef
+          Topic.Bundled: bundledIntoExisting
+
+    # ------------------------------------------------------------------
+    # 4. Not an IT request — say so kindly and stop. Nothing is emailed,
+    #    but the flow has already logged the decision.
+    # ------------------------------------------------------------------
+    - kind: ConditionGroup
+      id: gate_is_it
+      conditions:
+        - id: not_it
+          condition: =Topic.IsITRequest = false
+          actions:
+            - kind: SendActivity
+              id: say_not_it
+              activity: |-
+                That one's outside what IT Support handles ({Topic.NotARequestReason}), so I
+                haven't raised a ticket. If you think that's wrong, just say "raise it anyway"
+                and I'll send it over.
+            - kind: EndDialog
+              id: end_not_it
+
+    # ------------------------------------------------------------------
+    # 5. Fill the gaps the AI flagged. Optional but cheap — the requester
+    #    is right here, and every answer saves IT a round trip.
+    # ------------------------------------------------------------------
+    - kind: ConditionGroup
+      id: gate_missing
+      conditions:
+        - id: has_gaps
+          condition: =CountRows(Topic.MissingInfo) > 0
+          actions:
+            - kind: Question
+              id: q_gaps
+              variable: Topic.GapAnswers
+              entity: StringPrebuiltEntity
+              prompt: |-
+                Two quick things IT will ask: {First(Topic.MissingInfo).Value}
+                (Say "skip" if you'd rather not.)
+
+    # ------------------------------------------------------------------
+    # 6. Confirm the write-up with the requester before it goes anywhere.
+    #    This is the cheapest accuracy win in the whole build — they are
+    #    the only person who can tell you the summary is wrong.
+    # ------------------------------------------------------------------
+    - kind: Question
+      id: q_confirm
+      variable: Topic.RequesterConfirmed
+      entity: BooleanPrebuiltEntity
+      prompt: |-
+        Here's what I'll send to IT Support:
+
+        **{Topic.Subject}**
+        {Topic.Summary}
+
+        Priority: {Topic.Urgency}
+
+        Have I got that right?
+
+    - kind: ConditionGroup
+      id: gate_confirm
+      conditions:
+        - id: rejected
+          condition: =Topic.RequesterConfirmed = false
+          actions:
+            - kind: Question
+              id: q_correction
+              variable: Topic.IssueDescription
+              entity: StringPrebuiltEntity
+              prompt: No problem — tell me what I got wrong and I'll rewrite it.
+            - kind: GotoAction
+              id: retry
+              actionId: call_classify
+
+    # ------------------------------------------------------------------
+    # 7. Hand to the approval flow. It decides send-now vs queue-overnight.
+    # ------------------------------------------------------------------
+    - kind: InvokeFlowAction
+      id: call_approval
+      flowId: RequestApproval
+      input:
+        binding:
+          text_TicketRef: =Topic.TicketRef
+          text_GapAnswers: =Topic.GapAnswers
+      output:
+        binding:
+          Topic.QueuedUntilMorning: queued
+
+    - kind: ConditionGroup
+      id: gate_queued
+      conditions:
+        - id: queued
+          condition: =Topic.QueuedUntilMorning = true
+          actions:
+            - kind: SendActivity
+              id: say_queued
+              activity: |-
+                Logged as **{Topic.TicketRef}**. It's outside working hours, so this goes to
+                IT Support first thing tomorrow morning. If it can't wait until then, call the
+                service desk directly.
+            - kind: EndDialog
+              id: end_queued
+
+    - kind: SendActivity
+      id: say_done
+      activity: |-
+        Logged as **{Topic.TicketRef}** and sent for approval. I'll message you here as soon
+        as it's with IT Support.
+
+    - kind: EndDialog
+      id: end
