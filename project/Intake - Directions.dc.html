@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/broadsheet-2fc419c7-6729-41da-b5fa-6f9de9345561/styles.css">
+<script src="_ds/broadsheet-2fc419c7-6729-41da-b5fa-6f9de9345561/_ds_bundle.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap">
+<style>
+body{margin:0;background:#e6e4e1;font-family:var(--font-body)}
+a{color:var(--color-accent)}a:hover{color:var(--color-accent-700)}
+.dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#201e1d;color:#f3f2f2;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 14px/1.2 var(--font-heading);color:#201e1d}
+.dv-opts{display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.09);color:#201e1d;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.35 var(--font-body);color:rgba(32,30,29,.6)}
+.dv-opt:target .dv-oid{background:#0088b0;color:#fff}
+.dv-next{margin:26px 0 0;font:13px/1.6 var(--font-body);color:rgba(32,30,29,.55)}
+.hand{font-family:'Caveat',cursive;font-weight:600}
+.phone{width:360px;height:740px;position:relative;overflow:hidden;border:1px solid #201e1d;border-radius:30px;background:var(--color-bg);box-shadow:var(--shadow-lg)}
+.sbar{display:flex;align-items:center;justify-content:space-between;padding:11px 22px 3px;font-size:11px;letter-spacing:.04em;color:rgba(32,30,29,.6)}
+.scr{position:absolute;inset:34px 0 62px;overflow:hidden;padding:0 22px}
+.tabs{position:absolute;left:0;right:0;bottom:0;height:62px;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;border-top:1px solid var(--color-divider);background:var(--color-bg)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;cursor:pointer;font:400 12px var(--font-body);color:var(--color-text);padding:0}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--color-accent)}
+.dotless{width:5px;height:5px}
+.kick{font:400 10px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:rgba(32,30,29,.5)}
+.ruled{background-image:repeating-linear-gradient(to bottom,transparent 0 33px,rgba(32,30,29,.13) 33px 34px)}
+.row{display:flex;align-items:baseline;gap:10px;height:34px}
+.btnw{display:flex;gap:8px}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Intake — three directions, each tappable</span></div>
+<p style="max-width:760px;margin:0 0 24px;font:400 13.5px/1.65 var(--font-body);color:rgba(32,30,29,.7)">Assumptions I designed against: one 2,200 kcal goal, full macros, manual entry after each meal, barcode as the fast path and a photo as the fallback with an honest <em>range</em> rather than a fake single number. Handwriting is used for figures and margin notes only — the chrome stays in the system's serif. Tap the bottom tabs and the buttons inside each phone: <strong>Today → Scan → Confirm</strong>, and <strong>Photo</strong> from the Today screen. Onboarding, weekly summary, food detail and settings come with whichever direction you pick.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Ledger — ruled notebook, running total in the margin, sketched charts</div>
+<div class="phone">
+<div class="sbar"><span>9:41</span><span>Intake</span></div>
+
+<sc-if value="{{ a.today }}" hint-placeholder-val="{{ true }}">
+<div class="scr">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:14px 0 10px">
+    <div><div class="kick">Tuesday</div><div style="font:600 27px/1 var(--font-heading);margin-top:6px">28 July</div></div>
+    <div style="text-align:right"><div class="hand" style="font-size:44px;line-height:.8;color:var(--color-accent-700)">760</div><div class="kick" style="margin-top:5px">left of 2,200</div></div>
+  </div>
+  <div style="height:1px;background:var(--color-text);opacity:.85"></div>
+  <div style="height:3px"></div>
+  <div style="height:1px;background:var(--color-text);opacity:.3"></div>
+
+  <div class="ruled" style="margin-top:14px">
+    <div class="row"><span style="font-size:11px;color:rgba(32,30,29,.45);width:38px">07:20</span><span style="font:400 14px var(--font-body)">Porridge, banana, honey</span><span class="hand" style="margin-left:auto;font-size:19px">410</span></div>
+    <div class="row"><span style="font-size:11px;color:rgba(32,30,29,.45);width:38px">10:05</span><span style="font:400 14px var(--font-body)">Flat white</span><span class="hand" style="margin-left:auto;font-size:19px">120</span></div>
+    <div class="row"><span style="font-size:11px;color:rgba(32,30,29,.45);width:38px">13:15</span><span style="font:400 14px var(--font-body)">Chicken &amp; rice bowl</span><span class="hand" style="margin-left:auto;font-size:19px">620</span></div>
+    <div class="row"><span style="font-size:11px;color:rgba(32,30,29,.45);width:38px">16:40</span><span style="font:400 14px var(--font-body)">Protein bar <span style="font-size:10px;letter-spacing:.06em;color:var(--color-accent-700)">scanned</span></span><span class="hand" style="margin-left:auto;font-size:19px">205</span></div>
+    <div class="row"><span style="font-size:11px;color:rgba(32,30,29,.45);width:38px">19:30</span><span style="font:400 14px var(--font-body)">Dal, roti, yoghurt</span><span class="hand" style="margin-left:auto;font-size:19px">585</span></div>
+    <div class="row" style="align-items:center"><span style="font-size:11px;color:rgba(32,30,29,.3);width:38px">—</span><span style="font:400 13px var(--font-body);color:rgba(32,30,29,.4)">add supper</span></div>
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:10px;margin-top:12px;padding-top:8px;border-top:1px solid var(--color-text)">
+    <span class="kick">Ate today</span>
+    <span class="hand" style="margin-left:auto;font-size:26px">1,940</span>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:14px">
+    <div><div class="kick">Protein</div><div class="hand" style="font-size:20px">118<span style="font-size:13px">g</span></div></div>
+    <div><div class="kick">Carbs</div><div class="hand" style="font-size:20px">214<span style="font-size:13px">g</span></div></div>
+    <div><div class="kick">Fat</div><div class="hand" style="font-size:20px">61<span style="font-size:13px">g</span></div></div>
+    <div style="margin-left:auto;text-align:right"><div class="kick">Streak</div><div class="hand" style="font-size:20px;color:var(--color-accent-2-700)">11 days</div></div>
+  </div>
+  <div class="btnw" style="margin-top:18px">
+    <button class="btn btn-primary" style="flex:1" onClick="{{ goA.scan }}">Scan a barcode</button>
+    <button class="btn btn-secondary" style="flex:1" onClick="{{ goA.photo }}">Photo of a meal</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ a.scan }}">
+<div class="scr">
+  <div style="display:flex;align-items:center;gap:10px;padding:14px 0 12px"><button class="btn btn-ghost" style="padding:0" onClick="{{ goA.today }}">← Today</button><span class="kick" style="margin-left:auto">Step 1 of 2</span></div>
+  <div style="position:relative;height:330px;border-radius:var(--radius-md);background-color:var(--color-neutral-300);background-image:radial-gradient(circle,rgba(0,0,0,.28) 30%,transparent 32%);background-size:4px 4px;display:grid;place-items:center">
+    <div style="position:absolute;left:26px;right:26px;top:90px;height:150px;border:1px solid rgba(243,242,242,.9)"></div>
+    <div style="position:absolute;left:26px;right:26px;top:164px;height:2px;background:var(--color-accent-2)"></div>
+    <div style="display:flex;gap:3px;align-items:flex-end;height:96px;z-index:1">
+      <div style="width:3px;height:96px;background:#201e1d"></div><div style="width:6px;height:96px;background:#201e1d"></div><div style="width:2px;height:96px;background:#201e1d"></div><div style="width:8px;height:96px;background:#201e1d"></div><div style="width:3px;height:96px;background:#201e1d"></div><div style="width:2px;height:96px;background:#201e1d"></div><div style="width:7px;height:96px;background:#201e1d"></div><div style="width:3px;height:96px;background:#201e1d"></div><div style="width:5px;height:96px;background:#201e1d"></div><div style="width:2px;height:96px;background:#201e1d"></div><div style="width:9px;height:96px;background:#201e1d"></div>
+    </div>
+  </div>
+  <p class="hand" style="font-size:20px;margin:16px 0 0;color:var(--color-accent-700)">hold the barcode in the frame — it adds itself</p>
+  <p style="font:400 13px/1.6 var(--font-body);color:rgba(32,30,29,.6);margin-top:6px">Found in 0.4s from the off-line food table. No packet? Type the numbers underneath it.</p>
+  <div class="btnw" style="margin-top:14px"><button class="btn btn-secondary" style="flex:1" onClick="{{ goA.confirm }}">Enter code by hand</button><button class="btn btn-primary" style="flex:1" onClick="{{ goA.confirm }}">Simulate a scan</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ a.confirm }}">
+<div class="scr">
+  <div style="display:flex;align-items:center;gap:10px;padding:14px 0 12px"><button class="btn btn-ghost" style="padding:0" onClick="{{ goA.scan }}">← Scan</button><span class="kick" style="margin-left:auto">5 0 1 1 5 4 6 0 0 1 2 3</span></div>
+  <div class="kick">Matched</div>
+  <h3 style="margin:6px 0 2px">Grenade Protein Bar</h3>
+  <p style="font:400 13px var(--font-body);color:rgba(32,30,29,.6);margin:0">Salted caramel · 60 g bar · per bar</p>
+  <div style="display:flex;align-items:flex-end;gap:14px;margin-top:16px">
+    <span class="hand" style="font-size:52px;line-height:.8">205</span><span class="kick" style="padding-bottom:8px">kcal</span>
+    <span style="margin-left:auto;font:400 12px var(--font-body);color:rgba(32,30,29,.55);text-align:right">P 21g · C 16g<br>F 7g · Fib 3g</span>
+  </div>
+  <div class="ruled" style="margin-top:18px">
+    <div class="row"><span style="font:400 13px var(--font-body)">Servings</span><span class="hand" style="margin-left:auto;font-size:19px">1</span></div>
+    <div class="row"><span style="font:400 13px var(--font-body)">Meal</span><span class="hand" style="margin-left:auto;font-size:19px">afternoon</span></div>
+    <div class="row"><span style="font:400 13px var(--font-body)">Time</span><span class="hand" style="margin-left:auto;font-size:19px">16:40</span></div>
+  </div>
+  <div class="seg" style="margin-top:16px;width:100%"><label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="a-srv" defaultChecked="{{ true }}">½</label><label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="a-srv">1</label><label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="a-srv">1½</label><label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="a-srv">2</label></div>
+  <p class="hand" style="font-size:18px;color:var(--color-accent-2-700);margin:18px 0 0">this leaves you 555 for supper</p>
+  <button class="btn btn-primary btn-block" style="margin-top:10px" onClick="{{ goA.today }}">Write it into Tuesday</button>
+  <button class="btn btn-ghost btn-block" onClick="{{ goA.today }}">Not this — search by name</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ a.photo }}">
+<div class="scr">
+  <div style="display:flex;align-items:center;gap:10px;padding:14px 0 12px"><button class="btn btn-ghost" style="padding:0" onClick="{{ goA.today }}">← Today</button><span class="kick" style="margin-left:auto">Estimate</span></div>
+  <div style="height:190px;border:1px dashed rgba(32,30,29,.4);border-radius:var(--radius-md);display:grid;place-items:center;background-color:var(--color-surface);background-image:radial-gradient(circle,rgba(0,0,0,.16) 30%,transparent 32%);background-size:4px 4px">
+    <div style="text-align:center"><div class="hand" style="font-size:22px;color:var(--color-accent-700)">drop a photo here</div><div style="font:400 12px var(--font-body);color:rgba(32,30,29,.55);margin-top:2px">or take one · or paste</div></div>
+  </div>
+  <div style="display:flex;align-items:flex-end;gap:12px;margin-top:20px">
+    <span class="hand" style="font-size:40px;line-height:.85">480–620</span><span class="kick" style="padding-bottom:7px">kcal, best guess</span>
+  </div>
+  <svg width="290" height="26" viewBox="0 0 290 26" style="margin-top:6px;overflow:visible"><path d="M2 4 C2 18 4 20 12 21 L136 21 C144 20 145 15 146 4 C147 15 148 20 156 21 L280 21 C288 20 288 18 288 4" fill="none" stroke="#d6006c" stroke-width="1.4" stroke-linecap="round"></path></svg>
+  <p style="font:400 13px/1.6 var(--font-body);color:rgba(32,30,29,.65);margin-top:4px">A photo can't be exact. Tick what's on the plate and the range tightens.</p>
+  <div class="ruled" style="margin-top:8px">
+    <div class="row"><span style="font:400 14px var(--font-body)">Chicken thigh, grilled</span><span class="hand" style="margin-left:auto;font-size:18px">210–260</span></div>
+    <div class="row"><span style="font:400 14px var(--font-body)">Basmati rice, 1 cup</span><span class="hand" style="margin-left:auto;font-size:18px">190–220</span></div>
+    <div class="row"><span style="font:400 14px var(--font-body)">Salad, oil dressing</span><span class="hand" style="margin-left:auto;font-size:18px">80–140</span></div>
+  </div>
+  <button class="btn btn-primary btn-block" style="margin-top:16px" onClick="{{ goA.today }}">Log the midpoint — 550</button>
+  <button class="btn btn-ghost btn-block" onClick="{{ goA.today }}">Adjust each item first</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ a.trends }}">
+<div class="scr">
+  <div style="padding:14px 0 4px"><div class="kick">Last seven days</div><h3 style="margin:6px 0 0">Steady, a little under</h3></div>
+  <p class="hand" style="font-size:19px;color:var(--color-accent-700);margin:8px 0 0">avg 2,095 — 105 under goal</p>
+  <svg width="300" height="150" viewBox="0 0 300 150" style="margin-top:14px;overflow:visible">
+    <path d="M0 46 C90 44 200 49 300 46" stroke="#d6006c" stroke-width="1.2" stroke-dasharray="5 4" fill="none"></path>
+    <text x="252" y="40" font-family="Caveat" font-size="15" fill="#aa0b56">goal</text>
+    <path d="M4 96 C28 70 40 108 74 84 C104 62 118 100 148 74 C176 50 192 92 220 66 C246 44 268 78 296 58" fill="none" stroke="#201e1d" stroke-width="2" stroke-linecap="round"></path>
+    <path d="M4 92 C30 74 42 104 74 82" fill="none" stroke="#201e1d" stroke-width="1" opacity=".35"></path>
+    <path d="M4 130 L296 130" stroke="#201e1d" stroke-width="1" opacity=".5"></path>
+    <text x="0" y="146" font-family="Source Serif 4" font-size="10" fill="#605d5d">W</text><text x="48" y="146" font-family="Source Serif 4" font-size="10" fill="#605d5d">T</text><text x="96" y="146" font-family="Source Serif 4" font-size="10" fill="#605d5d">F</text><text x="144" y="146" font-family="Source Serif 4" font-size="10" fill="#605d5d">S</text><text x="192" y="146" font-family="Source Serif 4" font-size="10" fill="#605d5d">S</text><text x="240" y="146" font-family="Source Serif 4" font-size="10" fill="#605d5d">M</text><text x="286" y="146" font-family="Source Serif 4" font-size="10" fill="#605d5d">T</text>
+  </svg>
+  <div style="margin-top:18px"><div class="kick">Where the calories come from</div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-top:10px">
+      <div style="display:flex;align-items:center;gap:9px"><span style="font:400 12px var(--font-body);width:56px">Protein</span><span style="height:9px;width:96px;background:var(--color-accent)"></span><span class="hand" style="font-size:17px">24%</span></div>
+      <div style="display:flex;align-items:center;gap:9px"><span style="font:400 12px var(--font-body);width:56px">Carbs</span><span style="height:9px;width:170px;background:var(--color-accent-300)"></span><span class="hand" style="font-size:17px">45%</span></div>
+      <div style="display:flex;align-items:center;gap:9px"><span style="font:400 12px var(--font-body);width:56px">Fat</span><span style="height:9px;width:118px;background:var(--color-accent-2-300)"></span><span class="hand" style="font-size:17px">31%</span></div>
+    </div>
+  </div>
+  <div style="margin-top:20px;padding-top:12px;border-top:1px solid var(--color-text)">
+    <p class="hand" style="font-size:19px;margin:0;color:var(--color-accent-2-700)">weekends run 380 higher — mostly Saturday supper</p>
+    <p style="font:400 12.5px/1.6 var(--font-body);color:rgba(32,30,29,.6);margin:6px 0 0">Logged 11 days straight. Protein is the one below target.</p>
+  </div>
+</div>
+</sc-if>
+
+<div class="tabs">
+  <button class="tab" onClick="{{ goA.today }}">Today<sc-if value="{{ a.today }}" hint-placeholder-val="{{ true }}"><span class="dot"></span></sc-if><sc-if value="{{ a.notToday }}"><span class="dotless"></span></sc-if></button>
+  <button class="tab" onClick="{{ goA.scan }}">Add<sc-if value="{{ a.adding }}"><span class="dot"></span></sc-if><sc-if value="{{ a.notAdding }}"><span class="dotless"></span></sc-if></button>
+  <button class="tab" onClick="{{ goA.trends }}">Trends<sc-if value="{{ a.trends }}"><span class="dot"></span></sc-if><sc-if value="{{ a.notTrends }}"><span class="dotless"></span></sc-if></button>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Receipt — the day prints as a till roll, plate numerals, tallies</div>
+<div class="phone">
+<div class="sbar"><span>9:41</span><span>Intake</span></div>
+
+<sc-if value="{{ b.today }}">
+<div class="scr" style="padding:0 16px">
+  <div style="margin-top:10px;background:var(--color-neutral-100);box-shadow:var(--shadow-sm);padding:18px 18px 22px;background-image:linear-gradient(to right,transparent 0,transparent 100%)">
+    <div style="text-align:center">
+      <div style="font:600 13px/1 var(--font-heading);letter-spacing:.22em">INTAKE</div>
+      <div style="font-size:10.5px;letter-spacing:.1em;color:rgba(32,30,29,.55);margin-top:5px">TUE 28 JUL · GOAL 2,200</div>
+    </div>
+    <div style="height:1px;background:var(--color-text);margin:14px 0 2px"></div>
+    <div style="height:1px;background:var(--color-text);opacity:.35"></div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px;font-variant-numeric:tabular-nums">
+      <div style="display:flex;font-size:13px"><span>PORRIDGE + BANANA</span><span style="margin-left:auto" class="hand">410</span></div>
+      <div style="display:flex;font-size:13px"><span>FLAT WHITE</span><span style="margin-left:auto" class="hand">120</span></div>
+      <div style="display:flex;font-size:13px"><span>CHICKEN RICE BOWL</span><span style="margin-left:auto" class="hand">620</span></div>
+      <div style="display:flex;font-size:13px"><span>PROTEIN BAR <span style="font-size:9px;color:var(--color-accent-700)">◼ SCAN</span></span><span style="margin-left:auto" class="hand">205</span></div>
+      <div style="display:flex;font-size:13px"><span>DAL · ROTI · YOGHURT</span><span style="margin-left:auto" class="hand">585</span></div>
+    </div>
+    <div style="height:1px;background:var(--color-divider);margin:14px 0"></div>
+    <div style="display:flex;align-items:flex-end"><span style="font-size:10.5px;letter-spacing:.12em;color:rgba(32,30,29,.55)">SUBTOTAL</span>
+      <span class="cmyk-num" style="margin-left:auto;font:600 40px var(--font-heading)"><span class="paper">1,940</span><span class="plate plate-c" aria-hidden="true">1,940</span><span class="plate plate-m" aria-hidden="true">1,940</span><span class="plate plate-y" aria-hidden="true">1,940</span></span>
+    </div>
+    <div style="display:flex;margin-top:10px;font-size:12px"><span style="letter-spacing:.1em;color:rgba(32,30,29,.55)">REMAINING</span><span class="hand" style="margin-left:auto;font-size:22px;color:var(--color-accent-700)">260</span></div>
+    <div style="display:flex;gap:14px;margin-top:16px;font-size:11px;letter-spacing:.06em;color:rgba(32,30,29,.6)"><span>P 118g</span><span>C 214g</span><span>F 61g</span></div>
+    <div style="text-align:center;margin-top:18px;font-size:10.5px;letter-spacing:.14em;color:rgba(32,30,29,.45)">— 11 DAYS LOGGED —</div>
+    <div style="display:flex;gap:4px;justify-content:center;margin-top:8px">
+      <span style="width:2px;height:16px;background:#201e1d"></span><span style="width:2px;height:16px;background:#201e1d"></span><span style="width:2px;height:16px;background:#201e1d"></span><span style="width:2px;height:16px;background:#201e1d"></span><span style="width:18px;height:2px;background:#201e1d;transform:rotate(-58deg);margin:7px -10px 0 -10px"></span><span style="width:2px;height:16px;background:#201e1d;margin-left:10px"></span><span style="width:2px;height:16px;background:#201e1d"></span><span style="width:2px;height:16px;background:#201e1d"></span><span style="width:2px;height:16px;background:#201e1d"></span><span style="width:18px;height:2px;background:#201e1d;transform:rotate(-58deg);margin:7px -10px 0 -10px"></span><span style="width:2px;height:16px;background:#201e1d;margin-left:10px"></span>
+    </div>
+  </div>
+  <div class="btnw" style="margin-top:16px"><button class="btn btn-primary" style="flex:1" onClick="{{ goB.scan }}">Scan</button><button class="btn btn-secondary" style="flex:1" onClick="{{ goB.photo }}">Photo</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ b.scan }}">
+<div class="scr" style="padding:0 16px">
+  <div style="display:flex;align-items:center;padding:14px 0 10px"><button class="btn btn-ghost" style="padding:0" onClick="{{ goB.today }}">← Roll</button><span class="kick" style="margin-left:auto">Register</span></div>
+  <div style="position:relative;height:300px;background-color:var(--color-neutral-800);display:grid;place-items:center;border-radius:var(--radius-sm)">
+    <div style="position:absolute;top:14px;left:14px;width:16px;height:16px;border-radius:50%;border:1px solid rgba(243,242,242,.7)"></div>
+    <div style="position:absolute;top:14px;right:14px;width:16px;height:16px;border-radius:50%;border:1px solid rgba(243,242,242,.7)"></div>
+    <div style="position:absolute;bottom:14px;left:14px;width:16px;height:16px;border-radius:50%;border:1px solid rgba(243,242,242,.7)"></div>
+    <div style="position:absolute;bottom:14px;right:14px;width:16px;height:16px;border-radius:50%;border:1px solid rgba(243,242,242,.7)"></div>
+    <div style="width:236px;height:120px;background:var(--color-neutral-100);display:grid;place-items:center">
+      <div style="display:flex;gap:3px;align-items:flex-end;height:80px">
+        <div style="width:3px;height:80px;background:#201e1d"></div><div style="width:7px;height:80px;background:#201e1d"></div><div style="width:2px;height:80px;background:#201e1d"></div><div style="width:5px;height:80px;background:#201e1d"></div><div style="width:9px;height:80px;background:#201e1d"></div><div style="width:2px;height:80px;background:#201e1d"></div><div style="width:4px;height:80px;background:#201e1d"></div><div style="width:7px;height:80px;background:#201e1d"></div><div style="width:2px;height:80px;background:#201e1d"></div><div style="width:6px;height:80px;background:#201e1d"></div>
+      </div>
+    </div>
+    <div style="position:absolute;left:0;right:0;top:150px;height:1px;background:var(--color-accent-2)"></div>
+  </div>
+  <div style="text-align:center;margin-top:18px"><div style="font-size:10.5px;letter-spacing:.16em;color:rgba(32,30,29,.5)">CENTRE THE CODE</div><p class="hand" style="font-size:21px;margin:8px 0 0">it rings up by itself</p></div>
+  <div class="btnw" style="margin-top:18px"><button class="btn btn-secondary" style="flex:1" onClick="{{ goB.confirm }}">Type code</button><button class="btn btn-primary" style="flex:1" onClick="{{ goB.confirm }}">Simulate scan</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ b.confirm }}">
+<div class="scr" style="padding:0 16px">
+  <div style="display:flex;align-items:center;padding:14px 0 10px"><button class="btn btn-ghost" style="padding:0" onClick="{{ goB.scan }}">← Register</button><span class="kick" style="margin-left:auto">Rings up</span></div>
+  <div style="background:var(--color-neutral-100);box-shadow:var(--shadow-sm);padding:18px">
+    <div style="font-size:10.5px;letter-spacing:.14em;color:rgba(32,30,29,.55)">5011546 001235</div>
+    <h4 style="margin:8px 0 2px">GRENADE PROTEIN BAR</h4>
+    <div style="font-size:12px;color:rgba(32,30,29,.6)">Salted caramel · 60 g</div>
+    <div style="height:1px;background:var(--color-text);margin:14px 0 2px"></div>
+    <div style="height:1px;background:var(--color-text);opacity:.35"></div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;font-size:12.5px;font-variant-numeric:tabular-nums">
+      <div style="display:flex"><span>1 BAR × 205</span><span class="hand" style="margin-left:auto;font-size:17px">205</span></div>
+      <div style="display:flex;color:rgba(32,30,29,.6)"><span>PROTEIN</span><span style="margin-left:auto">21 g</span></div>
+      <div style="display:flex;color:rgba(32,30,29,.6)"><span>CARBS</span><span style="margin-left:auto">16 g</span></div>
+      <div style="display:flex;color:rgba(32,30,29,.6)"><span>FAT</span><span style="margin-left:auto">7 g</span></div>
+    </div>
+    <div style="height:1px;background:var(--color-divider);margin:14px 0"></div>
+    <div style="display:flex;align-items:flex-end"><span style="font-size:10.5px;letter-spacing:.12em;color:rgba(32,30,29,.55)">DAY TOTAL</span><span class="hand" style="margin-left:auto;font-size:30px">1,940</span></div>
+  </div>
+  <div class="field" style="margin-top:16px"><label>Quantity</label><div class="seg" style="width:100%"><label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="b-q" defaultChecked="{{ true }}">1</label><label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="b-q">2</label><label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="b-q">½</label><label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="b-q">g</label></div></div>
+  <button class="btn btn-primary btn-block" style="margin-top:14px" onClick="{{ goB.today }}">Print to today's roll</button>
+  <button class="btn btn-ghost btn-block" onClick="{{ goB.today }}">Void — wrong product</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ b.photo }}">
+<div class="scr" style="padding:0 16px">
+  <div style="display:flex;align-items:center;padding:14px 0 10px"><button class="btn btn-ghost" style="padding:0" onClick="{{ goB.today }}">← Roll</button><span class="kick" style="margin-left:auto">Weighed by eye</span></div>
+  <div style="height:170px;border:1px dashed rgba(32,30,29,.4);display:grid;place-items:center;background-color:var(--color-surface);background-image:radial-gradient(circle,rgba(0,0,0,.16) 30%,transparent 32%);background-size:4px 4px">
+    <div style="text-align:center"><div style="font-size:10.5px;letter-spacing:.16em;color:rgba(32,30,29,.55)">DROP · SNAP · PASTE</div><div class="hand" style="font-size:20px;margin-top:6px">one photo per plate</div></div>
+  </div>
+  <div style="background:var(--color-neutral-100);box-shadow:var(--shadow-sm);padding:16px;margin-top:16px">
+    <div style="text-align:center;font-size:10.5px;letter-spacing:.14em;color:rgba(32,30,29,.55)">ESTIMATE — NOT WEIGHED</div>
+    <div style="display:flex;justify-content:center;margin-top:10px">
+      <span class="cmyk-num" style="font:600 42px var(--font-heading)"><span class="paper">480–620</span><span class="plate plate-c" aria-hidden="true">480–620</span><span class="plate plate-m" aria-hidden="true">480–620</span><span class="plate plate-y" aria-hidden="true">480–620</span></span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px;font-size:12.5px">
+      <div style="display:flex"><span>CHICKEN THIGH</span><span style="margin-left:auto;color:rgba(32,30,29,.6)">210–260</span></div>
+      <div style="display:flex"><span>BASMATI RICE</span><span style="margin-left:auto;color:rgba(32,30,29,.6)">190–220</span></div>
+      <div style="display:flex"><span>SALAD + OIL</span><span style="margin-left:auto;color:rgba(32,30,29,.6)">80–140</span></div>
+    </div>
+  </div>
+  <button class="btn btn-primary btn-block" style="margin-top:14px" onClick="{{ goB.today }}">Log 550 (midpoint)</button>
+  <button class="btn btn-ghost btn-block" onClick="{{ goB.today }}">Tighten the estimate</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ b.trends }}">
+<div class="scr" style="padding:0 16px">
+  <div style="padding:14px 0 0"><div style="font-size:10.5px;letter-spacing:.16em;color:rgba(32,30,29,.5)">SEVEN-DAY ROLL</div><h3 style="margin:8px 0 0">2,095 average</h3><p class="hand" style="font-size:19px;margin:6px 0 0;color:var(--color-accent-700)">105 under, every day this week</p></div>
+  <div style="display:flex;align-items:flex-end;gap:9px;height:170px;margin-top:18px;position:relative">
+    <div style="position:absolute;left:0;right:0;bottom:118px;height:1px;background:var(--color-accent-2);opacity:.8"></div>
+    <div style="flex:1;height:118px;background:var(--color-neutral-300)"></div>
+    <div style="flex:1;height:136px;background:var(--color-neutral-400)"></div>
+    <div style="flex:1;height:104px;background:var(--color-neutral-300)"></div>
+    <div style="flex:1;height:150px;background:var(--color-accent-2-300)"></div>
+    <div style="flex:1;height:142px;background:var(--color-accent-2-300)"></div>
+    <div style="flex:1;height:98px;background:var(--color-neutral-300)"></div>
+    <div style="flex:1;height:112px;background:var(--color-accent)"></div>
+  </div>
+  <div style="display:flex;gap:9px;margin-top:6px;font-size:10px;letter-spacing:.08em;color:rgba(32,30,29,.5)"><span style="flex:1;text-align:center">W</span><span style="flex:1;text-align:center">T</span><span style="flex:1;text-align:center">F</span><span style="flex:1;text-align:center">S</span><span style="flex:1;text-align:center">S</span><span style="flex:1;text-align:center">M</span><span style="flex:1;text-align:center">T</span></div>
+  <div style="display:flex;margin-top:22px;gap:0;height:14px">
+    <span style="width:24%;background:var(--color-accent)"></span><span style="width:45%;background:var(--color-accent-300)"></span><span style="width:31%;background:var(--color-accent-2-300)"></span>
+  </div>
+  <div style="display:flex;margin-top:8px;font-size:11px;letter-spacing:.06em;color:rgba(32,30,29,.6)"><span>PROTEIN 24%</span><span style="margin-left:auto">CARB 45%</span><span style="margin-left:auto">FAT 31%</span></div>
+  <div style="margin-top:22px;padding-top:12px;border-top:1px solid var(--color-text)">
+    <div style="font-size:10.5px;letter-spacing:.14em;color:rgba(32,30,29,.5)">NOTED</div>
+    <p style="font:400 13px/1.6 var(--font-body);margin:8px 0 0">Saturday and Sunday print 380 higher than weekdays. Protein is the only macro under target — the rest is on the line.</p>
+  </div>
+</div>
+</sc-if>
+
+<div class="tabs">
+  <button class="tab" onClick="{{ goB.today }}">Roll<sc-if value="{{ b.today }}"><span class="dot"></span></sc-if><sc-if value="{{ b.notToday }}"><span class="dotless"></span></sc-if></button>
+  <button class="tab" onClick="{{ goB.scan }}">Add<sc-if value="{{ b.adding }}"><span class="dot"></span></sc-if><sc-if value="{{ b.notAdding }}"><span class="dotless"></span></sc-if></button>
+  <button class="tab" onClick="{{ goB.trends }}">Trends<sc-if value="{{ b.trends }}"><span class="dot"></span></sc-if><sc-if value="{{ b.notTrends }}"><span class="dotless"></span></sc-if></button>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Front page — the day edited as a newspaper, lead figure in plates</div>
+<div class="phone">
+<div class="sbar"><span>9:41</span><span>No. 112</span></div>
+
+<sc-if value="{{ c.today }}">
+<div class="scr">
+  <div style="text-align:center;padding-top:8px">
+    <div style="font:600 22px/1 var(--font-heading);letter-spacing:.02em">The Daily Intake</div>
+    <div style="height:2px;background:var(--color-text);margin:9px 0 2px"></div>
+    <div style="display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:.12em;color:rgba(32,30,29,.6);padding:3px 0"><span>TUE 28 JULY 2026</span><span>GOAL 2,200</span><span>ED. LATE</span></div>
+    <div style="height:1px;background:var(--color-text);opacity:.4"></div>
+  </div>
+  <div style="margin-top:16px">
+    <div class="kick" style="color:var(--color-accent-2-700)">Lead · with 4½ hours to go</div>
+    <h2 style="font-size:27px;margin:6px 0 8px;text-wrap:pretty">You have room for a proper supper</h2>
+    <div style="display:flex;align-items:flex-end;gap:12px">
+      <span class="cmyk-num" style="font:600 62px var(--font-heading)"><span class="paper">260</span><span class="plate plate-c" aria-hidden="true">260</span><span class="plate plate-m" aria-hidden="true">260</span><span class="plate plate-y" aria-hidden="true">260</span></span>
+      <span style="font:400 12px/1.4 var(--font-body);color:rgba(32,30,29,.6);padding-bottom:8px">kcal remaining<br>1,940 eaten</span>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px">
+    <div>
+      <div class="kick">The record</div>
+      <div style="height:1px;background:var(--color-text);margin:6px 0 8px"></div>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:12.5px;line-height:1.35">
+        <div style="display:flex;gap:6px"><span>Porridge, banana</span><span class="hand" style="margin-left:auto;font-size:16px">410</span></div>
+        <div style="display:flex;gap:6px"><span>Flat white</span><span class="hand" style="margin-left:auto;font-size:16px">120</span></div>
+        <div style="display:flex;gap:6px"><span>Chicken bowl</span><span class="hand" style="margin-left:auto;font-size:16px">620</span></div>
+        <div style="display:flex;gap:6px"><span>Protein bar</span><span class="hand" style="margin-left:auto;font-size:16px">205</span></div>
+        <div style="display:flex;gap:6px"><span>Dal, roti</span><span class="hand" style="margin-left:auto;font-size:16px">585</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="kick">The week</div>
+      <div style="height:1px;background:var(--color-text);margin:6px 0 8px"></div>
+      <div style="display:flex;align-items:flex-end;gap:5px;height:76px">
+        <div style="flex:1;height:56px;background:var(--color-neutral-400)"></div><div style="flex:1;height:66px;background:var(--color-neutral-400)"></div><div style="flex:1;height:48px;background:var(--color-neutral-400)"></div><div style="flex:1;height:74px;background:var(--color-accent-2-400)"></div><div style="flex:1;height:70px;background:var(--color-accent-2-400)"></div><div style="flex:1;height:44px;background:var(--color-neutral-400)"></div><div style="flex:1;height:52px;background:var(--color-accent)"></div>
+      </div>
+      <p style="font:400 11px/1.45 var(--font-body);color:rgba(32,30,29,.6);margin:8px 0 0">Avg 2,095. Weekends run high; today sits lowest of the seven.</p>
+    </div>
+  </div>
+  <div style="display:flex;gap:14px;margin-top:18px;padding-top:10px;border-top:1px solid var(--color-text)">
+    <span style="font:400 11.5px var(--font-body)">Protein <span class="hand" style="font-size:16px">118g</span></span>
+    <span style="font:400 11.5px var(--font-body)">Carbs <span class="hand" style="font-size:16px">214g</span></span>
+    <span style="font:400 11.5px var(--font-body)">Fat <span class="hand" style="font-size:16px">61g</span></span>
+  </div>
+  <div class="btnw" style="margin-top:16px"><button class="btn btn-primary" style="flex:1" onClick="{{ goC.scan }}">File by barcode</button><button class="btn btn-secondary" style="flex:1" onClick="{{ goC.photo }}">File a photo</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ c.scan }}">
+<div class="scr">
+  <div style="display:flex;align-items:center;padding:12px 0 10px"><button class="btn btn-ghost" style="padding:0" onClick="{{ goC.today }}">← Front page</button><span class="kick" style="margin-left:auto">Wire desk</span></div>
+  <h3 style="margin:0 0 4px">Point it at the packet</h3>
+  <p style="font:400 12.5px/1.55 var(--font-body);color:rgba(32,30,29,.65);margin:0 0 12px">The barcode is the byline — it fetches the numbers so you don't type them.</p>
+  <div style="position:relative;height:290px;background-color:var(--color-neutral-300);background-image:radial-gradient(circle,rgba(0,0,0,.26) 30%,transparent 32%);background-size:4px 4px;display:grid;place-items:center">
+    <div style="position:absolute;left:20px;top:78px;width:26px;height:26px;border-left:2px solid var(--color-accent);border-top:2px solid var(--color-accent)"></div>
+    <div style="position:absolute;right:20px;top:78px;width:26px;height:26px;border-right:2px solid var(--color-accent);border-top:2px solid var(--color-accent)"></div>
+    <div style="position:absolute;left:20px;bottom:78px;width:26px;height:26px;border-left:2px solid var(--color-accent);border-bottom:2px solid var(--color-accent)"></div>
+    <div style="position:absolute;right:20px;bottom:78px;width:26px;height:26px;border-right:2px solid var(--color-accent);border-bottom:2px solid var(--color-accent)"></div>
+    <div style="display:flex;gap:3px;align-items:flex-end;height:88px">
+      <div style="width:2px;height:88px;background:#201e1d"></div><div style="width:8px;height:88px;background:#201e1d"></div><div style="width:3px;height:88px;background:#201e1d"></div><div style="width:2px;height:88px;background:#201e1d"></div><div style="width:6px;height:88px;background:#201e1d"></div><div style="width:3px;height:88px;background:#201e1d"></div><div style="width:9px;height:88px;background:#201e1d"></div><div style="width:2px;height:88px;background:#201e1d"></div><div style="width:4px;height:88px;background:#201e1d"></div><div style="width:7px;height:88px;background:#201e1d"></div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:baseline;gap:8px;margin-top:14px"><span class="kick">Last filed</span><span style="font:400 13px var(--font-body)">Grenade bar · 205</span><span class="hand" style="margin-left:auto;font-size:17px;color:var(--color-accent-700)">again?</span></div>
+  <div class="btnw" style="margin-top:16px"><button class="btn btn-secondary" style="flex:1" onClick="{{ goC.confirm }}">Key the digits</button><button class="btn btn-primary" style="flex:1" onClick="{{ goC.confirm }}">Simulate a scan</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ c.confirm }}">
+<div class="scr">
+  <div style="display:flex;align-items:center;padding:12px 0 10px"><button class="btn btn-ghost" style="padding:0" onClick="{{ goC.scan }}">← Wire desk</button><span class="kick" style="margin-left:auto">Proof before print</span></div>
+  <div class="kick" style="color:var(--color-accent-2-700)">Barcode 5011546 001235</div>
+  <h2 style="font-size:24px;margin:6px 0 6px">Grenade Protein Bar</h2>
+  <p style="font:400 12.5px var(--font-body);color:rgba(32,30,29,.6);margin:0">Salted caramel · 60 g · packet figures</p>
+  <div style="height:1px;background:var(--color-text);margin:14px 0 2px"></div>
+  <div style="height:1px;background:var(--color-text);opacity:.35"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+    <div><div class="kick">Energy</div><div class="hand" style="font-size:40px;line-height:.9">205</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px">
+      <div style="display:flex"><span>Protein</span><span class="hand" style="margin-left:auto;font-size:16px">21g</span></div>
+      <div style="display:flex"><span>Carbs</span><span class="hand" style="margin-left:auto;font-size:16px">16g</span></div>
+      <div style="display:flex"><span>Fat</span><span class="hand" style="margin-left:auto;font-size:16px">7g</span></div>
+      <div style="display:flex"><span>Fibre</span><span class="hand" style="margin-left:auto;font-size:16px">3g</span></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px">
+    <div class="field"><label>Servings</label><input class="input" value="1"></div>
+    <div class="field"><label>Filed under</label><input class="input" value="Afternoon"></div>
+  </div>
+  <div style="margin-top:18px;padding-top:10px;border-top:1px solid var(--color-divider)">
+    <span class="kick">After filing</span>
+    <p class="hand" style="font-size:20px;margin:6px 0 0;color:var(--color-accent-700)">1,940 eaten · 260 left</p>
+  </div>
+  <button class="btn btn-primary btn-block" style="margin-top:14px" onClick="{{ goC.today }}">Send to press</button>
+  <button class="btn btn-ghost btn-block" onClick="{{ goC.today }}">Spike it</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ c.photo }}">
+<div class="scr">
+  <div style="display:flex;align-items:center;padding:12px 0 10px"><button class="btn btn-ghost" style="padding:0" onClick="{{ goC.today }}">← Front page</button><span class="kick" style="margin-left:auto">Picture desk</span></div>
+  <h3 style="margin:0 0 4px">A photograph, read as a range</h3>
+  <p style="font:400 12.5px/1.55 var(--font-body);color:rgba(32,30,29,.65);margin:0 0 12px">No packet, no barcode — drop the picture and we print the spread, not a false figure.</p>
+  <div style="height:150px;border:1px dashed rgba(32,30,29,.45);display:grid;place-items:center;background-color:var(--color-surface);background-image:radial-gradient(circle,rgba(0,0,0,.16) 30%,transparent 32%);background-size:4px 4px">
+    <div class="hand" style="font-size:21px;color:var(--color-accent-700)">drop the plate here</div>
+  </div>
+  <div style="display:flex;align-items:flex-end;gap:12px;margin-top:18px">
+    <span class="cmyk-num" style="font:600 46px var(--font-heading)"><span class="paper">480–620</span><span class="plate plate-c" aria-hidden="true">480–620</span><span class="plate plate-m" aria-hidden="true">480–620</span><span class="plate plate-y" aria-hidden="true">480–620</span></span>
+  </div>
+  <p class="kick" style="margin-top:8px">Estimated · midpoint 550</p>
+  <div style="margin-top:16px;display:flex;flex-direction:column;gap:9px">
+    <label class="radio"><input type="checkbox" defaultChecked="{{ true }}"><span class="dot"></span><span>Chicken thigh, grilled <span style="color:rgba(32,30,29,.55)">210–260</span></span></label>
+    <label class="radio"><input type="checkbox" defaultChecked="{{ true }}"><span class="dot"></span><span>Basmati rice, 1 cup <span style="color:rgba(32,30,29,.55)">190–220</span></span></label>
+    <label class="radio"><input type="checkbox"><span class="dot"></span><span>Salad, oil dressing <span style="color:rgba(32,30,29,.55)">80–140</span></span></label>
+  </div>
+  <button class="btn btn-primary btn-block" style="margin-top:18px" onClick="{{ goC.today }}">File at 550</button>
+  <button class="btn btn-ghost btn-block" onClick="{{ goC.today }}">Weigh it properly instead</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ c.trends }}">
+<div class="scr">
+  <div style="text-align:center;padding-top:8px">
+    <div style="font:600 15px/1 var(--font-heading);letter-spacing:.1em">THE WEEK IN REVIEW</div>
+    <div style="height:2px;background:var(--color-text);margin:8px 0 2px"></div>
+    <div style="height:1px;background:var(--color-text);opacity:.4"></div>
+  </div>
+  <h2 style="font-size:25px;margin:14px 0 6px;text-wrap:pretty">Seven days, steady hand</h2>
+  <p style="font:400 12.5px/1.6 var(--font-body);color:rgba(32,30,29,.7);margin:0">Average 2,095 against a 2,200 goal. The rolling line has not crossed the goal since Sunday — the pattern, not any single day, is the story.</p>
+  <svg width="304" height="132" viewBox="0 0 304 132" style="margin-top:16px">
+    <line x1="0" y1="34" x2="304" y2="34" stroke="#d6006c" stroke-width="1" stroke-dasharray="4 4"></line>
+    <text x="264" y="29" font-family="Source Serif 4" font-size="9" fill="#aa0b56">GOAL</text>
+    <rect x="4" y="56" width="30" height="56" fill="#bab6b6"></rect><rect x="46" y="44" width="30" height="68" fill="#bab6b6"></rect><rect x="88" y="66" width="30" height="46" fill="#bab6b6"></rect><rect x="130" y="26" width="30" height="86" fill="#ffc0d0"></rect><rect x="172" y="32" width="30" height="80" fill="#ffc0d0"></rect><rect x="214" y="72" width="30" height="40" fill="#bab6b6"></rect><rect x="256" y="60" width="30" height="52" fill="#0088b0"></rect>
+    <polyline points="19,60 61,54 103,58 145,44 187,40 229,50 271,54" fill="none" stroke="#201e1d" stroke-width="1.6"></polyline>
+    <line x1="0" y1="112" x2="304" y2="112" stroke="#201e1d" stroke-width="1"></line>
+    <text x="14" y="126" font-family="Source Serif 4" font-size="9" fill="#605d5d">W</text><text x="56" y="126" font-family="Source Serif 4" font-size="9" fill="#605d5d">T</text><text x="98" y="126" font-family="Source Serif 4" font-size="9" fill="#605d5d">F</text><text x="140" y="126" font-family="Source Serif 4" font-size="9" fill="#605d5d">S</text><text x="182" y="126" font-family="Source Serif 4" font-size="9" fill="#605d5d">S</text><text x="224" y="126" font-family="Source Serif 4" font-size="9" fill="#605d5d">M</text><text x="266" y="126" font-family="Source Serif 4" font-size="9" fill="#605d5d">T</text>
+  </svg>
+  <p style="font:400 10.5px var(--font-body);color:rgba(32,30,29,.5);margin:4px 0 0">Bars: daily total. Line: 7-day rolling average. Pink: weekend.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;padding-top:12px;border-top:1px solid var(--color-text)">
+    <div><div class="kick">Macro split</div>
+      <div style="display:flex;height:12px;margin-top:8px"><span style="width:24%;background:var(--color-accent)"></span><span style="width:45%;background:var(--color-accent-300)"></span><span style="width:31%;background:var(--color-accent-2-300)"></span></div>
+      <p style="font:400 11px/1.5 var(--font-body);color:rgba(32,30,29,.6);margin:7px 0 0">P 24 · C 45 · F 31. Protein short of target four days in seven.</p>
+    </div>
+    <div><div class="kick">Consistency</div>
+      <div class="hand" style="font-size:30px;margin-top:6px">11<span style="font-size:15px"> days</span></div>
+      <p style="font:400 11px/1.5 var(--font-body);color:rgba(32,30,29,.6);margin:4px 0 0">Longest run yet. One missed day resets the count, nothing else.</p>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<div class="tabs">
+  <button class="tab" onClick="{{ goC.today }}">Front page<sc-if value="{{ c.today }}"><span class="dot"></span></sc-if><sc-if value="{{ c.notToday }}"><span class="dotless"></span></sc-if></button>
+  <button class="tab" onClick="{{ goC.scan }}">File<sc-if value="{{ c.adding }}"><span class="dot"></span></sc-if><sc-if value="{{ c.notAdding }}"><span class="dotless"></span></sc-if></button>
+  <button class="tab" onClick="{{ goC.trends }}">Review<sc-if value="{{ c.trends }}"><span class="dot"></span></sc-if><sc-if value="{{ c.notTrends }}"><span class="dotless"></span></sc-if></button>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "build out <a class="dv-oid" href="#1a">1a</a> with onboarding, weekly summary, food detail and settings" · "keep <a class="dv-oid" href="#1c">1c</a>'s front-page Today but use <a class="dv-oid" href="#1a">1a</a>'s ruled log" · "make the charts sketchier"</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = { a: 'today', b: 'today', c: 'today' };
+  mk(k) {
+    const cur = this.state[k];
+    const screens = ['today', 'scan', 'confirm', 'photo', 'trends'];
+    const is = {}, go = {};
+    screens.forEach(s => { is[s] = cur === s; go[s] = () => this.setState({ [k]: s }); });
+    is.adding = ['scan', 'confirm', 'photo'].includes(cur);
+    is.notToday = !is.today; is.notAdding = !is.adding; is.notTrends = !is.trends;
+    return { is, go };
+  }
+  renderVals() {
+    const A = this.mk('a'), B = this.mk('b'), C = this.mk('c');
+    return { a: A.is, goA: A.go, b: B.is, goB: B.go, c: C.is, goC: C.go };
+  }
+}
+</script>
+</body>
+</html>

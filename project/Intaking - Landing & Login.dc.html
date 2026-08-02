@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/broadsheet-2fc419c7-6729-41da-b5fa-6f9de9345561/styles.css">
+<script src="_ds/broadsheet-2fc419c7-6729-41da-b5fa-6f9de9345561/_ds_bundle.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap">
+<style>
+body{margin:0;background:#e6e4e1;font-family:var(--font-body)}
+a{color:var(--color-accent-700);text-decoration:none}a:hover{color:var(--color-accent-900)}
+.hand{font-family:'Caveat',cursive;font-weight:600}
+.greek{font-family:var(--font-heading);font-weight:600;letter-spacing:.14em;text-transform:none;font-feature-settings:"ss01"}
+.kick{font:400 10px/1 var(--font-body);letter-spacing:.16em;text-transform:uppercase;color:rgba(32,30,29,.5)}
+.turn{padding:52px 56px;border-bottom:1px solid rgba(0,0,0,.08)}
+.oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.09);color:#201e1d;border-radius:5px}
+.olabel{display:flex;align-items:baseline;gap:9px;font:400 12px/1.35 var(--font-body);color:rgba(32,30,29,.6)}
+.opt{display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.opt:target .oid{background:#0088b0;color:#fff}
+.phone{width:390px;height:800px;position:relative;overflow:hidden;border:1px solid #201e1d;border-radius:34px;background:var(--color-bg);box-shadow:var(--shadow-lg)}
+.sbar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px 4px;font-size:11px;letter-spacing:.04em;color:rgba(32,30,29,.6)}
+.key{background:none;border:1px solid rgba(32,30,29,.22);border-radius:2px;height:52px;font:400 21px var(--font-heading);color:var(--color-text);cursor:pointer}
+.key:hover{background:var(--color-accent-100);border-color:var(--color-accent-300)}
+.pip{width:13px;height:13px;border-radius:50%;border:1px solid var(--color-text)}
+.pip-on{background:var(--color-text)}
+.ruled{background-image:repeating-linear-gradient(to bottom,transparent 0 33px,rgba(32,30,29,.13) 33px 34px)}
+</style>
+</helmet>
+
+<section class="turn" id="t2">
+<div style="display:flex;align-items:baseline;gap:10px;margin:0 0 22px"><span class="oid">2</span><span style="font:600 14px var(--font-heading)">Intaking — landing page, and three ways in</span></div>
+
+<div class="opt" id="2landing"><div class="olabel"><span class="oid">2·landing</span>Desktop / responsive landing — Greek-set wordmark, the % mark, cyan as the only accent</div>
+<div style="width:1280px;background:var(--color-bg);border:1px solid rgba(32,30,29,.25);box-shadow:var(--shadow-lg)">
+
+  <div style="display:flex;align-items:center;gap:14px;padding:22px 48px">
+    <svg width="30" height="30" viewBox="0 0 40 40" aria-label="Intaking"><circle cx="11" cy="11" r="7.5" fill="none" stroke="#201e1d" stroke-width="2.4"></circle><circle cx="29" cy="29" r="7.5" fill="none" stroke="#201e1d" stroke-width="2.4"></circle><line x1="33" y1="6" x2="7" y2="34" stroke="#0088b0" stroke-width="2.8" stroke-linecap="round"></line></svg>
+    <span class="greek" style="font-size:19px">ΙΝΤΑΚΙΝΓ</span>
+    <span style="margin-left:auto;display:flex;gap:26px;font:400 13px var(--font-body);color:rgba(32,30,29,.7)"><a href="#2landing">How it works</a><a href="#2landing">The ledger</a><a href="#2landing">Privacy</a></span>
+    <a href="#2a" class="btn btn-secondary" style="margin-left:22px">Sign in</a>
+  </div>
+  <div style="height:2px;background:var(--color-text);margin:0 48px"></div>
+  <div style="height:3px"></div>
+  <div style="height:1px;background:var(--color-text);opacity:.35;margin:0 48px"></div>
+
+  <div style="display:grid;grid-template-columns:1.15fr .85fr;gap:56px;padding:52px 48px 40px">
+    <div>
+      <div class="kick">A calorie ledger you keep by hand</div>
+      <div style="display:flex;align-items:center;gap:22px;margin-top:20px">
+        <svg width="92" height="92" viewBox="0 0 40 40"><circle cx="11" cy="11" r="7.5" fill="none" stroke="#201e1d" stroke-width="2.2"></circle><circle cx="29" cy="29" r="7.5" fill="none" stroke="#201e1d" stroke-width="2.2"></circle><line x1="33" y1="6" x2="7" y2="34" stroke="#0088b0" stroke-width="2.6" stroke-linecap="round"></line></svg>
+        <div>
+          <div class="greek" style="font-size:78px;line-height:.92">ΙΝΤΑΚΙΝΓ</div>
+          <div style="font:400 12px var(--font-body);letter-spacing:.28em;color:rgba(32,30,29,.5);margin-top:8px">I N T A K I N G</div>
+        </div>
+      </div>
+      <p style="font:400 19px/1.6 var(--font-body);max-width:30em;margin:26px 0 0;text-wrap:pretty">Scan the barcode. Drop the photo. Write the number down. Intaking keeps the day as a ruled page and reads the pattern back to you — percentages, not verdicts.</p>
+      <p class="hand" style="font-size:26px;color:var(--color-accent-700);margin:20px 0 0">100% of it is just knowing where the day went</p>
+      <div style="display:flex;gap:12px;margin-top:28px"><a href="#2a" class="btn btn-primary">Start a ledger</a><a href="#2landing" class="btn btn-ghost">See a sample week</a></div>
+    </div>
+
+    <div style="padding-left:8px">
+      <div class="kick">Tuesday, as kept</div>
+      <div style="height:1px;background:var(--color-text);margin:9px 0 0"></div>
+      <div class="ruled" style="margin-top:10px">
+        <div style="display:flex;align-items:baseline;height:34px"><span style="font:400 14px var(--font-body)">Porridge, banana, honey</span><span class="hand" style="margin-left:auto;font-size:19px">410</span></div>
+        <div style="display:flex;align-items:baseline;height:34px"><span style="font:400 14px var(--font-body)">Flat white</span><span class="hand" style="margin-left:auto;font-size:19px">120</span></div>
+        <div style="display:flex;align-items:baseline;height:34px"><span style="font:400 14px var(--font-body)">Chicken &amp; rice bowl</span><span class="hand" style="margin-left:auto;font-size:19px">620</span></div>
+        <div style="display:flex;align-items:baseline;height:34px"><span style="font:400 14px var(--font-body)">Protein bar <span style="font-size:10px;letter-spacing:.06em;color:var(--color-accent-700)">scanned</span></span><span class="hand" style="margin-left:auto;font-size:19px">205</span></div>
+        <div style="display:flex;align-items:baseline;height:34px"><span style="font:400 14px var(--font-body)">Dal, roti, yoghurt</span><span class="hand" style="margin-left:auto;font-size:19px">585</span></div>
+      </div>
+      <div style="display:flex;align-items:baseline;margin-top:12px;padding-top:9px;border-top:1px solid var(--color-text)"><span class="kick">88% of goal</span><span class="hand" style="margin-left:auto;font-size:28px">1,940</span></div>
+      <svg width="100%" height="104" viewBox="0 0 320 104" preserveAspectRatio="none" style="margin-top:20px">
+        <line x1="0" y1="26" x2="320" y2="26" stroke="#d6006c" stroke-width="1" stroke-dasharray="5 4"></line>
+        <path d="M4 74 C36 50 52 82 84 62 C116 42 132 74 164 52 C194 32 210 66 240 46 C266 28 292 60 316 42" fill="none" stroke="#201e1d" stroke-width="2" stroke-linecap="round"></path>
+        <line x1="0" y1="96" x2="320" y2="96" stroke="#201e1d" stroke-width="1" opacity=".5"></line>
+      </svg>
+      <div class="kick" style="margin-top:6px">Seven-day rolling average · 2,095</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px;padding:36px 48px 20px;border-top:1px solid var(--color-divider)">
+    <div>
+      <div class="greek" style="font-size:15px;color:var(--color-accent-700)">Α · ΣΚΑΝ</div>
+      <h4 style="margin:9px 0 6px">The barcode does the typing</h4>
+      <p style="font:400 14px/1.6 var(--font-body);color:rgba(32,30,29,.72);margin:0">Point at the packet; the entry lands in the day with its macros. 64% of entries never get typed.</p>
+    </div>
+    <div>
+      <div class="greek" style="font-size:15px;color:var(--color-accent-700)">Β · ΦΩΤΟ</div>
+      <h4 style="margin:9px 0 6px">A plate becomes a range</h4>
+      <p style="font:400 14px/1.6 var(--font-body);color:rgba(32,30,29,.72);margin:0">Drop or snap a photo and get 480–620, not a false single figure. Tick the items and it tightens.</p>
+    </div>
+    <div>
+      <div class="greek" style="font-size:15px;color:var(--color-accent-700)">Γ · ΤΡΕΝΔ</div>
+      <h4 style="margin:9px 0 6px">The pattern, drawn your way</h4>
+      <p style="font:400 14px/1.6 var(--font-body);color:rgba(32,30,29,.72);margin:0">Rolling averages, macro split, streaks — with the chart's shape, ink and range band under your control.</p>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:18px;padding:26px 48px 34px">
+    <span style="font:400 12px var(--font-body);color:rgba(32,30,29,.5)">On this phone only. Nothing leaves it.</span>
+    <span style="margin-left:auto;font:400 12px var(--font-body);color:rgba(32,30,29,.5)">© 2026 Intaking</span>
+  </div>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start;margin-top:44px">
+
+<div class="opt" id="2a"><div class="olabel"><span class="oid">2a</span>Ruled page — the login as the first line of the ledger, keypad below</div>
+<div class="phone">
+  <div class="sbar"><span>9:41</span><span class="greek" style="font-size:11px">ΙΝΤΑΚΙΝΓ</span></div>
+  <div style="position:absolute;inset:36px 0 0;padding:0 26px">
+    <div style="display:flex;align-items:center;gap:12px;padding:26px 0 0">
+      <svg width="32" height="32" viewBox="0 0 40 40"><circle cx="11" cy="11" r="7.5" fill="none" stroke="#201e1d" stroke-width="2.4"></circle><circle cx="29" cy="29" r="7.5" fill="none" stroke="#201e1d" stroke-width="2.4"></circle><line x1="33" y1="6" x2="7" y2="34" stroke="#0088b0" stroke-width="2.8" stroke-linecap="round"></line></svg>
+      <span class="greek" style="font-size:26px">ΙΝΤΑΚΙΝΓ</span>
+    </div>
+    <div style="height:2px;background:var(--color-text);margin:16px 0 2px"></div>
+    <div style="height:1px;background:var(--color-text);opacity:.35"></div>
+    <p class="hand" style="font-size:23px;margin:18px 0 0;color:var(--color-accent-700)">welcome back — open the ledger</p>
+
+    <div class="ruled" style="margin-top:20px">
+      <div style="display:flex;align-items:baseline;height:34px"><span class="kick" style="width:76px">Name</span><span style="font:400 15px var(--font-body)">sen@gmail.com</span></div>
+      <div style="display:flex;align-items:center;height:34px"><span class="kick" style="width:76px">PIN</span><span style="display:flex;gap:9px"><span class="pip pip-on"></span><span class="pip pip-on"></span><span class="pip pip-on"></span><span class="pip"></span></span><span class="hand" style="margin-left:auto;font-size:17px;color:rgba(32,30,29,.4)">4 digits</span></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:26px">
+      <button class="key">1</button><button class="key">2</button><button class="key">3</button>
+      <button class="key">4</button><button class="key">5</button><button class="key">6</button>
+      <button class="key">7</button><button class="key">8</button><button class="key">9</button>
+      <button class="key" style="border-color:transparent">·</button><button class="key">0</button><button class="key" style="border-color:transparent">⌫</button>
+    </div>
+
+    <button class="btn btn-primary btn-block" style="margin-top:22px">Open Tuesday</button>
+    <div style="display:flex;justify-content:space-between;margin-top:16px;font:400 12.5px var(--font-body)"><a href="#2a">Forgotten PIN</a><a href="#2a">Use Face ID instead</a></div>
+    <p style="font:400 11.5px/1.5 var(--font-body);color:rgba(32,30,29,.45);margin:20px 0 0">11-day streak waiting. 141 entries, all on this phone.</p>
+  </div>
+</div>
+</div>
+
+<div class="opt" id="2b"><div class="olabel"><span class="oid">2b</span>The % mark as the PIN dial — pips fill the diagonal, mark-led and quiet</div>
+<div class="phone">
+  <div class="sbar"><span>9:41</span><span class="greek" style="font-size:11px">ΙΝΤΑΚΙΝΓ</span></div>
+  <div style="position:absolute;inset:36px 0 10px;padding:0 26px;display:flex;flex-direction:column">
+    <div style="text-align:center;padding-top:38px">
+      <svg width="112" height="112" viewBox="0 0 40 40"><circle cx="11" cy="11" r="7.5" fill="none" stroke="#201e1d" stroke-width="2"></circle><circle cx="29" cy="29" r="7.5" fill="none" stroke="#201e1d" stroke-width="2"></circle><line x1="33" y1="6" x2="7" y2="34" stroke="#0088b0" stroke-width="2.4" stroke-linecap="round"></line></svg>
+      <div class="greek" style="font-size:34px;margin-top:16px">ΙΝΤΑΚΙΝΓ</div>
+      <div style="font:400 10.5px var(--font-body);letter-spacing:.3em;color:rgba(32,30,29,.45);margin-top:9px">KEEP THE DAY</div>
+    </div>
+
+    <div style="margin-top:34px">
+      <div class="field"><label>Email or username</label><input class="input" value="sen@gmail.com"></div>
+      <div style="margin-top:20px">
+        <div class="kick" style="text-align:center">Enter your PIN</div>
+        <div style="display:flex;justify-content:center;gap:14px;margin-top:14px">
+          <span class="pip pip-on" style="width:15px;height:15px"></span><span class="pip pip-on" style="width:15px;height:15px"></span><span class="pip" style="width:15px;height:15px"></span><span class="pip" style="width:15px;height:15px"></span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px">
+      <button class="key" style="height:58px;border-radius:50%">1</button><button class="key" style="height:58px;border-radius:50%">2</button><button class="key" style="height:58px;border-radius:50%">3</button>
+      <button class="key" style="height:58px;border-radius:50%">4</button><button class="key" style="height:58px;border-radius:50%">5</button><button class="key" style="height:58px;border-radius:50%">6</button>
+      <button class="key" style="height:58px;border-radius:50%">7</button><button class="key" style="height:58px;border-radius:50%">8</button><button class="key" style="height:58px;border-radius:50%">9</button>
+      <button class="key" style="height:58px;border:0;font-size:12px;letter-spacing:.1em">FACE</button><button class="key" style="height:58px;border-radius:50%">0</button><button class="key" style="height:58px;border:0">⌫</button>
+    </div>
+
+    <div style="margin-top:auto;padding:18px 0 6px;text-align:center;font:400 12.5px var(--font-body)"><a href="#2b">Forgotten PIN</a><span style="color:rgba(32,30,29,.3);margin:0 10px">·</span><a href="#2b">New ledger</a></div>
+  </div>
+</div>
+</div>
+
+<div class="opt" id="2c"><div class="olabel"><span class="oid">2c</span>Front-page masthead — dateline furniture, fields as a filed form, no keypad</div>
+<div class="phone">
+  <div class="sbar"><span>9:41</span><span>No. 112</span></div>
+  <div style="position:absolute;inset:36px 0 0;padding:0 26px">
+    <div style="text-align:center;padding-top:24px">
+      <div class="greek" style="font-size:31px">ΙΝΤΑΚΙΝΓ</div>
+      <div style="height:2px;background:var(--color-text);margin:12px 0 2px"></div>
+      <div style="display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:.13em;color:rgba(32,30,29,.6);padding:4px 0"><span>TUE 28 JULY 2026</span><span>DAY 112</span><span>ED. LATE</span></div>
+      <div style="height:1px;background:var(--color-text);opacity:.4"></div>
+    </div>
+
+    <div style="display:flex;justify-content:center;margin-top:30px">
+      <svg width="66" height="66" viewBox="0 0 40 40"><circle cx="11" cy="11" r="7.5" fill="none" stroke="#201e1d" stroke-width="2.2"></circle><circle cx="29" cy="29" r="7.5" fill="none" stroke="#201e1d" stroke-width="2.2"></circle><line x1="33" y1="6" x2="7" y2="34" stroke="#0088b0" stroke-width="2.6" stroke-linecap="round"></line></svg>
+    </div>
+
+    <h2 style="font-size:27px;margin:24px 0 8px;text-wrap:pretty">Your ledger is where you left it</h2>
+    <p style="font:400 13.5px/1.6 var(--font-body);color:rgba(32,30,29,.68);margin:0">Sign in to file today's meals. Eleven days running, and nothing has left this phone.</p>
+
+    <div style="margin-top:26px">
+      <div class="field"><label>Email or username</label><input class="input" value="sen@gmail.com"></div>
+      <div class="field" style="margin-top:16px"><label>PIN</label>
+        <div style="display:flex;gap:10px">
+          <input class="input" value="•" style="text-align:center;font-size:18px">
+          <input class="input" value="•" style="text-align:center;font-size:18px">
+          <input class="input" value="•" style="text-align:center;font-size:18px">
+          <input class="input" value="" style="text-align:center;font-size:18px">
+        </div>
+      </div>
+      <label class="radio" style="margin-top:18px"><input type="checkbox" defaultChecked="{{ true }}"><span class="dot"></span><span>Keep me signed in on this phone</span></label>
+      <button class="btn btn-primary btn-block" style="margin-top:20px">Sign in</button>
+      <button class="btn btn-ghost btn-block">Forgotten PIN</button>
+    </div>
+
+    <div style="display:flex;align-items:baseline;gap:10px;margin-top:26px;padding-top:12px;border-top:1px solid var(--color-text)">
+      <span class="kick">New here</span><a href="#2c" style="font-size:13px">Start a ledger →</a>
+      <span class="hand" style="margin-left:auto;font-size:18px;color:var(--color-accent-2-700)">takes a minute</span>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+<p style="margin:28px 0 0;font:13px/1.6 var(--font-body);color:rgba(32,30,29,.55)">Wordmark is Greek-set — Ι Ν Τ Α Κ Ι Ν Γ — with the Latin spelling as a subline; the mark is a percent sign whose diagonal is the app's cyan. Try next: "go with <span class="oid">2b</span> and wire it into the Ledger app" · "put 2c's masthead on the landing hero".</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1400,&quot;height&quot;:900}}"></script>
+</body>
+</html>
