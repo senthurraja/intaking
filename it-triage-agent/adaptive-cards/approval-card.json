@@ -1,0 +1,108 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "$comment": "Paste into the 'Post adaptive card and wait for a response' action in RequestApproval. Placeholders in @{...} bind to the SharePoint item fetched by 'Get the logged ticket'.",
+  "body": [
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "IT SUPPORT TICKET — AWAITING YOUR APPROVAL",
+              "weight": "Bolder",
+              "size": "Small",
+              "spacing": "None",
+              "isSubtle": true,
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "@{body('Get_the_logged_ticket')?['value'][0]?['DraftSubject']}",
+              "weight": "Bolder",
+              "size": "Medium",
+              "wrap": true,
+              "spacing": "Small"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "@{body('Get_the_logged_ticket')?['value'][0]?['Urgency']}",
+              "weight": "Bolder",
+              "size": "Large",
+              "horizontalAlignment": "Right",
+              "color": "@{if(equals(body('Get_the_logged_ticket')?['value'][0]?['Urgency'],'P1'),'Attention',if(equals(body('Get_the_logged_ticket')?['value'][0]?['Urgency'],'P2'),'Warning','Default'))}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "FactSet",
+      "spacing": "Medium",
+      "facts": [
+        { "title": "Ref", "value": "@{body('Get_the_logged_ticket')?['value'][0]?['Title']}" },
+        { "title": "From", "value": "@{body('Get_the_logged_ticket')?['value'][0]?['RequesterName']}" },
+        { "title": "Category", "value": "@{body('Get_the_logged_ticket')?['value'][0]?['Category']}" },
+        { "title": "Why this priority", "value": "@{body('Get_the_logged_ticket')?['value'][0]?['UrgencyReason']}" },
+        { "title": "Confidence", "value": "@{body('Get_the_logged_ticket')?['value'][0]?['Confidence']}" }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "$comment": "Renders as an empty block when confidence is not low — Adaptive Cards has no server-side $when here, so the flow expression decides the text.",
+      "text": "@{if(equals(body('Get_the_logged_ticket')?['value'][0]?['Confidence'],'low'),'⚠︎ Low confidence — the description was thin. Read it properly before sending.','')}",
+      "color": "Warning",
+      "wrap": true,
+      "spacing": "Small"
+    },
+    {
+      "type": "TextBlock",
+      "text": "This goes to ITSupport@thefa.com. Edit the wording below if it needs it.",
+      "isSubtle": true,
+      "size": "Small",
+      "wrap": true,
+      "spacing": "Medium"
+    },
+    {
+      "type": "Input.Text",
+      "id": "summary",
+      "isMultiline": true,
+      "value": "@{body('Get_the_logged_ticket')?['value'][0]?['DraftSummary']}"
+    },
+    {
+      "type": "Input.Text",
+      "id": "comment",
+      "placeholder": "Optional note for the log — why you discarded it, or what you changed",
+      "isMultiline": false
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Send to IT Support",
+      "style": "positive",
+      "data": { "submitActionId": "send" }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Save my edit, don't send yet",
+      "data": { "submitActionId": "edit" }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Discard",
+      "style": "destructive",
+      "data": { "submitActionId": "discard" }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "$comment": "Single source of truth for categorisation and urgency. Edit this file, then re-paste the two arrays into the classification prompt (docs/build-guide.md step 5). Nothing else in the build hardcodes a keyword.",
+  "version": "1.0.0",
+  "recipient": "ITSupport@thefa.com",
+
+  "settings": {
+    "includeVerbatimDescription": false,
+    "$includeVerbatimDescription": "Q11 = summary only. Flip to true to append the requester's own words under the summary. See README 'The one toggle worth revisiting'.",
+    "bundleWindowMinutes": 5,
+    "releaseSchedule": "hourly",
+    "workingHours": { "start": "09:00", "end": "17:30", "timeZone": "GMT Standard Time", "days": ["Mon", "Tue", "Wed", "Thu", "Fri"] },
+    "queueOutOfHours": true,
+    "autoReplyToRequester": true,
+    "disclosureLine": "Raised automatically from a Microsoft Teams conversation with the IT Triage assistant, reviewed and approved by {ApproverName} before sending."
+  },
+
+  "categories": [
+    {
+      "id": "ACCOUNT",
+      "label": "Account & Access",
+      "urgencyFloor": "P2",
+      "keywords": ["password", "reset", "locked out", "lockout", "mfa", "multi-factor", "authenticator", "account", "permissions", "admin rights", "sharepoint access", "mailbox", "shared mailbox", "distribution list", "sign in", "signed out"]
+    },
+    {
+      "id": "CONNECTIVITY",
+      "label": "Connectivity",
+      "urgencyFloor": "P2",
+      "keywords": ["vpn", "wi-fi", "wifi", "wireless", "network", "can't log in", "cant log in", "can't access", "cant access", "no internet", "disconnected", "remote access"]
+    },
+    {
+      "id": "SECURITY",
+      "label": "Security",
+      "urgencyFloor": "P1",
+      "keywords": ["phishing", "phish", "suspicious email", "scam", "malware", "virus", "ransomware", "compromised", "hacked", "data breach", "reported email"]
+    },
+    {
+      "id": "HARDWARE",
+      "label": "Hardware",
+      "urgencyFloor": "P3",
+      "keywords": ["laptop", "printer", "print", "monitor", "docking station", "dock", "keyboard", "headset", "battery", "charger", "blue screen", "bsod", "won't turn on", "wont turn on"]
+    },
+    {
+      "id": "SOFTWARE",
+      "label": "Software & Licensing",
+      "urgencyFloor": "P3",
+      "keywords": ["software", "licence", "license", "install", "outlook", "teams not working", "excel", "word", "application", "app crash", "update", "version"]
+    },
+    {
+      "id": "JML",
+      "label": "Joiners, Movers & Leavers",
+      "urgencyFloor": "P3",
+      "keywords": ["new starter", "new joiner", "leaver", "offboard", "onboard", "starts on", "last day", "change of role", "department move"]
+    }
+  ],
+
+  "urgencyEscalation": {
+    "$comment": "Q03 = category floor plus language escalation. A hit bumps the ticket exactly one level, capped at P1.",
+    "bumpOneLevel": ["urgent", "asap", "as soon as possible", "immediately", "blocked", "can't work", "cant work", "unable to work", "match day", "matchday", "kick off", "kick-off", "live", "on air", "broadcast", "board meeting", "deadline today", "presenting", "stuck"],
+    "levels": ["P3", "P2", "P1"],
+    "labels": {
+      "P1": "URGENT",
+      "P2": "HIGH",
+      "P3": "NORMAL"
+    }
+  },
+
+  "overrides": {
+    "$comment": "Hard rules applied after category and escalation. First match wins.",
+    "alwaysP1": [
+      { "when": "category == SECURITY", "why": "Any suspected phishing or compromise goes straight to the top." },
+      { "when": "category == ACCOUNT && text contains 'locked out' && text contains any escalation word", "why": "A blocked lockout is the classic can't-work case." }
+    ],
+    "alwaysP2": [
+      { "when": "category == JML && startDateWithinHours <= 48", "why": "A new starter landing inside two days is time-critical." }
+    ]
+  },
+
+  "notItRequest": {
+    "$comment": "If the AI confirm step returns one of these, no email is sent and the log records it as filtered.",
+    "reasons": ["social chat", "already resolved", "not IT related", "HR or facilities request", "duplicate of an open ticket", "asking about a ticket rather than raising one"]
+  }
+}
